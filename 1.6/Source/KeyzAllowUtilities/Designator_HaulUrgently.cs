@@ -30,7 +30,7 @@ public class Designator_HaulUrgently : Designator
         soundDragChanged = SoundDefOf.Designate_DragStandard_Changed;
         useMouseIcon = true;
         soundSucceeded = SoundDefOf.Designate_Haul;
-        hotKey = KeyBindingDefOf.Misc12;
+        hotKey = KeyzAllowUtilitesDefOf.KAU_HaulUrgently;
     }
 
     public static Thing GetFirstUgentHaulable(IntVec3 c, Map map)
