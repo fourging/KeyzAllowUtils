@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using HarmonyLib;
+using RimWorld;
 using UnityEngine;
 using Verse;
 
@@ -17,20 +18,28 @@ public static class Pawn_Patches
     [HarmonyPostfix]
     public static void GetGizmos_Patch(Pawn __instance, ref IEnumerable<Gizmo> __result)
     {
-        if(!__instance.Downed || __instance.Dead || __instance.MapOrHolderMap() == null) return;
+        if(KeyzAllowUtilitiesMod.settings.DisableFinishOff || !__instance.Downed || __instance.Dead || __instance.MapOrHolderMap() == null) return;
+
+        bool hideGizmo = __instance.Faction.IsPlayer || !__instance.Faction.HostileTo(Faction.OfPlayer) && !KeyzAllowUtilitiesMod.settings.AllowFinishOffOnFriendly;
 
         List<Gizmo> gizmos = __result.ToList();
         Designation des = __instance.MapOrHolderMap().designationManager.DesignationOn(__instance, KeyzAllowUtilitesDefOf.KAU_FinishOffDesignation);
 
         if (des == null)
         {
-            gizmos.Add( new Command_Action()
+            if (!hideGizmo)
             {
-                icon = KUA_ToggleFinishOff, defaultLabel = "KUA_ToggleFinishOff".Translate(), defaultDesc = "KUA_ToggleFinishOffDesc".Translate(), action = () =>
+                gizmos.Add(new Command_Action()
                 {
-                    __instance.MapOrHolderMap().designationManager.AddDesignation(new Designation(__instance, KeyzAllowUtilitesDefOf.KAU_FinishOffDesignation));
-                }
-            });
+                    icon = KUA_ToggleFinishOff,
+                    defaultLabel = "KUA_ToggleFinishOff".Translate(),
+                    defaultDesc = "KUA_ToggleFinishOffDesc".Translate(),
+                    action = () =>
+                    {
+                        __instance.MapOrHolderMap().designationManager.AddDesignation(new Designation(__instance, KeyzAllowUtilitesDefOf.KAU_FinishOffDesignation));
+                    }
+                });
+            }
         }
         else
         {

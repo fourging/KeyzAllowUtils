@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="UTF-8" ?>
 <Defs>
-    <WorkTypeDef>
+    <KeyzAllowUtilities.ToggleableWorkTypeDef>
         <defName>KAU_UrgentHaul</defName>
         <labelShort>Urgent hauling</labelShort>
         <pawnLabel>Hauler</pawnLabel>
@@ -15,9 +15,9 @@
             <li>ManualDumb</li>
             <li>Hauling</li>
         </workTags>
-    </WorkTypeDef>
+    </KeyzAllowUtilities.ToggleableWorkTypeDef>
 
-    <WorkTypeDef>
+    <KeyzAllowUtilities.ToggleableWorkTypeDef>
         <defName>KAU_FinishingOff</defName>
         <labelShort>Finish</labelShort>
         <pawnLabel>Executor</pawnLabel>
@@ -34,6 +34,6 @@
         <workTags>
             <li>Violent</li>
         </workTags>
-    </WorkTypeDef>
+    </KeyzAllowUtilities.ToggleableWorkTypeDef>
 
 </Defs>

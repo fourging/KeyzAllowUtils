@@ -20,6 +20,8 @@ public class KUAFloatMenu: FloatMenuOptionProvider
         Pawn clickedPawn,
         FloatMenuContext context)
     {
+        if(KeyzAllowUtilitiesMod.settings.DisableFinishOff) yield break;
+
         if (!context.FirstSelectedPawn.CanReach(clickedPawn, PathEndMode.OnCell, Danger.Deadly))
         {
             yield return new FloatMenuOption(
@@ -28,6 +30,9 @@ public class KUAFloatMenu: FloatMenuOptionProvider
 
         foreach (Pawn pawn in context.ValidSelectedPawns)
         {
+            if(clickedPawn.Faction == Faction.OfPlayer) continue;
+            if (!KeyzAllowUtilitiesMod.settings.AllowFinishOffOnFriendly && !clickedPawn.Faction.HostileTo(Faction.OfPlayer)) continue;
+
             int melee = pawn.skills.GetSkill(SkillDefOf.Melee).Level;
             if (!KeyzAllowUtilitiesMod.settings.DisableMeleeRequirementForFinishOff && melee < 5)
             {

@@ -7,6 +7,8 @@ public class Settings : ModSettings
 {
     public int MaxSelect = 300;
     public bool DisableHaulUrgently = false;
+    public bool DisableFinishOff = false;
+    public bool AllowFinishOffOnFriendly = false;
     public bool DisableAllowShortcuts = false;
     public bool DisableAllShortcuts = false;
     public bool DisableMeleeRequirementForFinishOff = false;
@@ -23,6 +25,12 @@ public class Settings : ModSettings
         options.CheckboxLabeled("KAU_ToggleHaulUrgently".Translate(), ref DisableHaulUrgently);
         options.Gap();
 
+        options.CheckboxLabeled("KAU_ToggleFinishOff".Translate(), ref DisableFinishOff);
+        options.Gap();
+
+        options.CheckboxLabeled("KAU_ToggleAllowFinishOffOnFriendly".Translate(), ref AllowFinishOffOnFriendly);
+        options.Gap();
+
         options.CheckboxLabeled("KAU_ToggleDisableAllowShortcuts".Translate(), ref DisableAllowShortcuts);
         options.Gap();
 
@@ -35,11 +43,20 @@ public class Settings : ModSettings
 
         options.End();
 
+
         if (DisableHaulUrgently && !Find.Maps.NullOrEmpty())
         {
             foreach (Map map in Find.Maps)
             {
                 map.designationManager.RemoveAllDesignationsOfDef(KeyzAllowUtilitesDefOf.KAU_HaulUrgentlyDesignation);
+            }
+        }
+
+        if (DisableFinishOff && !Find.Maps.NullOrEmpty())
+        {
+            foreach (Map map in Find.Maps)
+            {
+                map.designationManager.RemoveAllDesignationsOfDef(KeyzAllowUtilitesDefOf.KAU_FinishOffDesignation);
             }
         }
     }
@@ -48,8 +65,14 @@ public class Settings : ModSettings
     {
         Scribe_Values.Look(ref MaxSelect, "MaxSelect", 300);
         Scribe_Values.Look(ref DisableHaulUrgently, "DisableHaulUrgently", false);
+        Scribe_Values.Look(ref DisableFinishOff, "DisableFinishOff", false);
+        Scribe_Values.Look(ref AllowFinishOffOnFriendly, "AllowFinishOffOnFriendly", false);
         Scribe_Values.Look(ref DisableAllowShortcuts, "DisableAllowShortcuts", false);
         Scribe_Values.Look(ref DisableAllShortcuts, "DisableAllShortcuts", false);
         Scribe_Values.Look(ref DisableMeleeRequirementForFinishOff, "DisableMeleeRequirementForFinishOff", false);
+
+
+        if(KeyzAllowUtilitesDefOf.KAU_UrgentHaul != null) KeyzAllowUtilitesDefOf.KAU_UrgentHaul.Toggle(!DisableHaulUrgently);
+        if(KeyzAllowUtilitesDefOf.KAU_FinishingOff != null) KeyzAllowUtilitesDefOf.KAU_FinishingOff.Toggle(!DisableFinishOff);
     }
 }

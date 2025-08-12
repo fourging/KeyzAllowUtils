@@ -9,6 +9,13 @@ namespace KeyzAllowUtilities;
 [StaticConstructorOnStartup]
 public class Designator_FinishOff : Designator
 {
+
+    public override bool Disabled
+    {
+        get => disabled || KeyzAllowUtilitiesMod.settings.DisableFinishOff;
+        set => disabled = value;
+    }
+
     protected override DesignationDef Designation => KeyzAllowUtilitesDefOf.KAU_FinishOffDesignation;
 
     public override DrawStyleCategoryDef DrawStyleCategory => DrawStyleCategoryDefOf.FilledRectangle;

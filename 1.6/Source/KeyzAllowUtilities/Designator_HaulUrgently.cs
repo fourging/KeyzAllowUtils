@@ -9,6 +9,12 @@ namespace KeyzAllowUtilities;
 [StaticConstructorOnStartup]
 public class Designator_HaulUrgently : Designator
 {
+    public override bool Disabled
+    {
+        get => disabled || KeyzAllowUtilitiesMod.settings.DisableHaulUrgently;
+        set => disabled = value;
+    }
+
     protected override DesignationDef Designation => KeyzAllowUtilitesDefOf.KAU_HaulUrgentlyDesignation;
 
     public override DrawStyleCategoryDef DrawStyleCategory => DrawStyleCategoryDefOf.FilledRectangle;

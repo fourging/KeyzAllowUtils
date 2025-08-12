@@ -7,6 +7,7 @@ namespace KeyzAllowUtilities;
 
 public class WorkGiver_FinishOff : WorkGiver_Scanner
 {
+    public override bool ShouldSkip(Pawn pawn, bool forced = false) => base.ShouldSkip(pawn, forced) || KeyzAllowUtilitiesMod.settings.DisableFinishOff;
 
     public static bool IsValidTarget(Pawn target, Pawn worker)
     {
