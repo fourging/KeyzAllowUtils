@@ -10,7 +10,7 @@ namespace KeyzAllowUtilities;
 [StaticConstructorOnStartup]
 public class Designator_HarvestGrown : Designator_PlantsHarvestWood
 {
-    public static Lazy<FieldInfo> CanDesignateStumpsNow => new Lazy<FieldInfo>(()=>AccessTools.Field(typeof(Designator_HarvestGrown), nameof(CanDesignateStumpsNow)));
+    public static Lazy<FieldInfo> CanDesignateStumpsNow => new(()=>AccessTools.Field(typeof(Designator_HarvestGrown), nameof(CanDesignateStumpsNow)));
     protected override DesignationDef Designation => DesignationDefOf.CutPlant;
 
     public override DrawStyleCategoryDef DrawStyleCategory => DrawStyleCategoryDefOf.FilledRectangle;
@@ -33,20 +33,22 @@ public class Designator_HarvestGrown : Designator_PlantsHarvestWood
 
     public override AcceptanceReport CanDesignateThing(Thing t)
     {
+        if (t is not Plant)
+        {
+            return false;
+        }
+        if(Map.designationManager.AllDesignationsOn(t).Any(des=>des.def == DesignationDefOf.HarvestPlant)) return false;
+
         AcceptanceReport acceptanceReport = base.CanDesignateThing(t);
-        if (!acceptanceReport.Accepted)
+        if (acceptanceReport.Accepted)
             return acceptanceReport;
+
         Plant plant = (Plant) t;
 
         if (!Harvestable(plant)) return false;
 
         if (t.TryGetComp(out CompPlantPreventCutting comp) && comp.PreventCutting)
             return "MessageMustPlantCuttingForbidden".Translate();
-
-        if (!plant.HarvestableNow || plant.def.plant.harvestTag != "Standard")
-        {
-            return t.def.plant.isStump && !(bool)CanDesignateStumpsNow.Value.GetValue(this) ? false : (AcceptanceReport) true;
-        }
 
         return true;
     }
