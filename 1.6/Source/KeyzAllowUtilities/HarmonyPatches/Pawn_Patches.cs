@@ -19,13 +19,14 @@ public static class Pawn_Patches
     public static void GetGizmos_Patch(Pawn __instance, ref IEnumerable<Gizmo> __result)
     {
         if(KeyzAllowUtilitiesMod.settings.DisableFinishOff || !__instance.Downed || __instance.Dead || __instance.MapOrHolderMap() == null) return;
+        if(__instance.Faction == Faction.OfPlayer || (__instance.guest != null && __instance.guest.HostFaction == Faction.OfPlayer)) return;
 
-        bool hideGizmo = __instance.Faction.IsPlayer || !__instance.Faction.HostileTo(Faction.OfPlayer) && !KeyzAllowUtilitiesMod.settings.AllowFinishOffOnFriendly;
+        bool hideGizmo = !KeyzAllowUtilitiesMod.settings.AllowFinishOffOnFriendly && !__instance.Faction.HostileTo(Faction.OfPlayer) && !__instance.IsAnimal;
 
         List<Gizmo> gizmos = __result.ToList();
         Designation des = __instance.MapOrHolderMap().designationManager.DesignationOn(__instance, KeyzAllowUtilitesDefOf.KAU_FinishOffDesignation);
 
-        if (des == null)
+        if (!__instance.Faction.IsPlayer && des == null)
         {
             if (!hideGizmo)
             {

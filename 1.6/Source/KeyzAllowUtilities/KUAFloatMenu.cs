@@ -13,7 +13,7 @@ public class KUAFloatMenu: FloatMenuOptionProvider
 
     public override bool TargetPawnValid(Pawn pawn, FloatMenuContext context)
     {
-        return base.TargetPawnValid(pawn, context) && pawn.Downed;
+        return base.TargetPawnValid(pawn, context) && pawn.Downed && pawn.Faction != Faction.OfPlayer && (pawn.guest == null || pawn.guest.HostFaction != Faction.OfPlayer);
     }
 
     public override IEnumerable<FloatMenuOption> GetOptionsFor(
@@ -30,8 +30,7 @@ public class KUAFloatMenu: FloatMenuOptionProvider
 
         foreach (Pawn pawn in context.ValidSelectedPawns)
         {
-            if(clickedPawn.Faction == Faction.OfPlayer) continue;
-            if (!KeyzAllowUtilitiesMod.settings.AllowFinishOffOnFriendly && !clickedPawn.Faction.HostileTo(Faction.OfPlayer)) continue;
+            if (!KeyzAllowUtilitiesMod.settings.AllowFinishOffOnFriendly && !clickedPawn.Faction.HostileTo(Faction.OfPlayer) && !clickedPawn.IsAnimal) continue;
 
             int melee = pawn.skills.GetSkill(SkillDefOf.Melee).Level;
             if (!KeyzAllowUtilitiesMod.settings.DisableMeleeRequirementForFinishOff && melee < 5)

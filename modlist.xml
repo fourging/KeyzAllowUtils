@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ModsConfigData>
-	<version>1.6.4528 rev1222</version>
+	<version>1.6.4543 rev1057</version>
 	<activeMods>
 		<li>brrainz.harmony</li>
 		<li>ludeon.rimworld</li>
@@ -9,11 +9,12 @@
 		<li>ludeon.rimworld.biotech</li>
 		<li>ludeon.rimworld.anomaly</li>
 		<li>ludeon.rimworld.odyssey</li>
-		<li>spacemoth.mechtab</li>
+		<li>mlie.compactworktab</li>
 		<li>mehni.pickupandhaul</li>
 		<li>nightmare.jaxe.publisherplusmultiversionfork</li>
-		<li>keyz182.keyzallowutilities</li>
 		<li>frozensnowfox.complexjobs</li>
+		<li>spacemoth.mechtab</li>
+		<li>keyz182.keyzallowutilities</li>
 		<li>dubwise.dubsperformanceanalyzer.steam</li>
 	</activeMods>
 	<knownExpansions>

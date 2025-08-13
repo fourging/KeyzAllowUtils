@@ -39,7 +39,7 @@ public class Designator_FinishOff : Designator
         if (!c.InBounds(Map) || c.Fogged(Map))
             return [];
 
-        return Map.thingGrid.ThingsListAt(c).OfType<Pawn>().Where(p => !p.Dead && p.Downed).Select(p=>p as Thing).ToList();
+        return Map.thingGrid.ThingsListAt(c).Where(t=>CanDesignateThing(t)).ToList();
     }
 
     public override AcceptanceReport CanDesignateCell(IntVec3 c)
@@ -63,7 +63,9 @@ public class Designator_FinishOff : Designator
 
     public override AcceptanceReport CanDesignateThing(Thing t)
     {
-        return t is Pawn { Downed: true, Dead: false };
+        if(t is not Pawn { Downed: true, Dead: false } pawn || pawn.Faction == Faction.OfPlayer || (pawn.guest != null && pawn.guest.HostFaction == Faction.OfPlayer)) return false;
+
+        return KeyzAllowUtilitiesMod.settings.AllowFinishOffOnFriendly || pawn.Faction.HostileTo(Faction.OfPlayer) || pawn.IsAnimal;
     }
 
     public override void DesignateThing(Thing t)
