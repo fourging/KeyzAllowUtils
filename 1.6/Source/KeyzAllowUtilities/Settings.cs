@@ -45,24 +45,25 @@ public class Settings : ModSettings
 
     public void ValidateDesignators()
     {
-        if(Scribe.mode == LoadSaveMode.LoadingVars) return; // Can't access the DefOf here
-
-        KeyzAllowUtilitesDefOf.KAU_UrgentHaul?.Toggle(!DisableHaulUrgently);
-        KeyzAllowUtilitesDefOf.KAU_FinishingOff?.Toggle(!DisableFinishOff);
-
-        if (DisableHaulUrgently && !Find.Maps.NullOrEmpty())
+        if (Scribe.mode == LoadSaveMode.Inactive || Scribe.mode == LoadSaveMode.Saving)
         {
-            foreach (Map map in Find.Maps)
+            KeyzAllowUtilitesDefOf.KAU_UrgentHaul?.Toggle(!DisableHaulUrgently);
+            KeyzAllowUtilitesDefOf.KAU_FinishingOff?.Toggle(!DisableFinishOff);
+
+            if (DisableHaulUrgently && !Find.Maps.NullOrEmpty())
             {
-                map.designationManager.RemoveAllDesignationsOfDef(KeyzAllowUtilitesDefOf.KAU_HaulUrgentlyDesignation);
+                foreach (Map map in Find.Maps)
+                {
+                    map.designationManager.RemoveAllDesignationsOfDef(KeyzAllowUtilitesDefOf.KAU_HaulUrgentlyDesignation);
+                }
             }
-        }
 
-        if (DisableFinishOff && !Find.Maps.NullOrEmpty())
-        {
-            foreach (Map map in Find.Maps)
+            if (DisableFinishOff && !Find.Maps.NullOrEmpty())
             {
-                map.designationManager.RemoveAllDesignationsOfDef(KeyzAllowUtilitesDefOf.KAU_FinishOffDesignation);
+                foreach (Map map in Find.Maps)
+                {
+                    map.designationManager.RemoveAllDesignationsOfDef(KeyzAllowUtilitesDefOf.KAU_FinishOffDesignation);
+                }
             }
         }
     }
