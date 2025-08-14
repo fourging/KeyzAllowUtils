@@ -8,7 +8,7 @@ using Verse;
 namespace KeyzAllowUtilities;
 
 [StaticConstructorOnStartup]
-public class Designator_HarvestGrown : Designator_PlantsHarvestWood
+public class Designator_HarvestGrown : Designator_Plants
 {
     public static Lazy<FieldInfo> CanDesignateStumpsNow => new(()=>AccessTools.Field(typeof(Designator_HarvestGrown), nameof(CanDesignateStumpsNow)));
     protected override DesignationDef Designation => DesignationDefOf.CutPlant;
@@ -26,26 +26,23 @@ public class Designator_HarvestGrown : Designator_PlantsHarvestWood
         soundSucceeded = SoundDefOf.Designate_CutPlants;
     }
 
-    public static bool Harvestable(Plant plant)
-    {
-        return Mathf.Approximately(plant.Growth, 1f) && plant.HarvestableNow;
-    }
-
     public override AcceptanceReport CanDesignateThing(Thing t)
     {
-        if (t is not Plant)
+        if (t.def.plant == null)
+            return false;
+
+        if (t is not Plant plant)
         {
             return false;
         }
-        if(Map.designationManager.AllDesignationsOn(t).Any(des=>des.def == DesignationDefOf.HarvestPlant)) return false;
 
-        AcceptanceReport acceptanceReport = base.CanDesignateThing(t);
-        if (acceptanceReport.Accepted)
-            return acceptanceReport;
+        if (!plant.def.plant.Harvestable) return false;
 
-        Plant plant = (Plant) t;
+        if (plant.def.plant.harvestTag == "Wood" || plant.def.plant.harvestedThingDef == null) return false;
 
-        if (!Harvestable(plant)) return false;
+        if(Map.designationManager.AllDesignationsOn(plant).Any(des=>des.def == DesignationDefOf.HarvestPlant)) return false;
+
+        if (!Mathf.Approximately(plant.Growth, 1f)) return false;
 
         if (t.TryGetComp(out CompPlantPreventCutting comp) && comp.PreventCutting)
             return "MessageMustPlantCuttingForbidden".Translate();
@@ -61,10 +58,6 @@ public class Designator_HarvestGrown : Designator_PlantsHarvestWood
 
     public override void DesignateThing(Thing t)
     {
-        PossiblyWarnPlayerImportantPlantDesignateCut(t);
-        if (ModsConfig.IdeologyActive && t.def.plant.IsTree && t.def.plant.treeLoversCareIfChopped)
-            PossiblyWarnPlayerOnDesignatingTreeCut();
-
         Map.designationManager.AddDesignation(new Designation((LocalTargetInfo) t, DesignationDefOf.HarvestPlant));
         t.SetForbidden(false, false);
     }

@@ -39,10 +39,16 @@ public class Settings : ModSettings
 
         options.CheckboxLabeled("KAU_DisableMeleeRequirementForFinishOff".Translate(), ref DisableMeleeRequirementForFinishOff);
         options.Gap();
-
-
         options.End();
 
+    }
+
+    public void ValidateDesignators()
+    {
+        if(Scribe.mode == LoadSaveMode.LoadingVars) return; // Can't access the DefOf here
+
+        KeyzAllowUtilitesDefOf.KAU_UrgentHaul?.Toggle(!DisableHaulUrgently);
+        KeyzAllowUtilitesDefOf.KAU_FinishingOff?.Toggle(!DisableFinishOff);
 
         if (DisableHaulUrgently && !Find.Maps.NullOrEmpty())
         {
@@ -71,8 +77,6 @@ public class Settings : ModSettings
         Scribe_Values.Look(ref DisableAllShortcuts, "DisableAllShortcuts", false);
         Scribe_Values.Look(ref DisableMeleeRequirementForFinishOff, "DisableMeleeRequirementForFinishOff", false);
 
-
-        if(KeyzAllowUtilitesDefOf.KAU_UrgentHaul != null) KeyzAllowUtilitesDefOf.KAU_UrgentHaul.Toggle(!DisableHaulUrgently);
-        if(KeyzAllowUtilitesDefOf.KAU_FinishingOff != null) KeyzAllowUtilitesDefOf.KAU_FinishingOff.Toggle(!DisableFinishOff);
+        ValidateDesignators();
     }
 }

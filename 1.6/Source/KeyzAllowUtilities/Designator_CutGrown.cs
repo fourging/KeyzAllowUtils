@@ -24,18 +24,16 @@ public class Designator_CutGrown : Designator_PlantsCut
         soundSucceeded = SoundDefOf.Designate_CutPlants;
     }
 
-    public static bool Harvestable(Plant plant)
-    {
-        return Mathf.Approximately(plant.Growth, 1f) && plant.HarvestableNow;
-    }
-
     public override AcceptanceReport CanDesignateThing(Thing t)
     {
-        return base.CanDesignateThing(t) && Harvestable((Plant) t);
+        return t is Plant plant && base.CanDesignateThing(t) && Mathf.Approximately(plant.Growth, 1f);
     }
 
     public override void DesignateThing(Thing t)
     {
+        Designator_PlantsHarvestWood.PossiblyWarnPlayerImportantPlantDesignateCut(t);
+        if (ModsConfig.IdeologyActive && t.def.plant.IsTree && t.def.plant.treeLoversCareIfChopped)
+            Designator_PlantsHarvestWood.PossiblyWarnPlayerOnDesignatingTreeCut();
         Map.designationManager.AddDesignation(new Designation((LocalTargetInfo) t, DesignationDefOf.CutPlant));
         t.SetForbidden(false, false);
     }
