@@ -85,6 +85,8 @@ public class JobDriver_FinishOff : JobDriver
         {
             victim.Kill(damageInfo, null);
         }
+
+        slayer.Notify_KilledPawn(victim);
     }
 
     public Thing TryMakeSkullMote(Pawn victim, float chance)

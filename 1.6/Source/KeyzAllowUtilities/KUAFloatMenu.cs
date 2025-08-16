@@ -30,9 +30,11 @@ public class KUAFloatMenu: FloatMenuOptionProvider
 
         foreach (Pawn pawn in context.ValidSelectedPawns)
         {
-            if (!KeyzAllowUtilitiesMod.settings.AllowFinishOffOnFriendly && !clickedPawn.Faction.HostileTo(Faction.OfPlayer) && !clickedPawn.IsAnimal) continue;
+            if (!KeyzAllowUtilitiesMod.settings.AllowFinishOffOnFriendly && !(clickedPawn.Faction?.HostileTo(Faction.OfPlayer) ?? true) && !clickedPawn.IsAnimal) continue;
 
-            int melee = pawn.skills.GetSkill(SkillDefOf.Melee).Level;
+            SkillRecord meleeSkill = pawn.skills?.GetSkill(SkillDefOf.Melee);
+            int melee = meleeSkill?.Level ?? 0;
+
             if (!KeyzAllowUtilitiesMod.settings.DisableMeleeRequirementForFinishOff && melee < 5)
             {
                 yield return new FloatMenuOption(
