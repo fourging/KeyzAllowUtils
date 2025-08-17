@@ -36,7 +36,6 @@ public class Designator_HarvestGrown : Designator_Plants
 
     public override AcceptanceReport CanDesignateThing(Thing t)
     {
-        if (!KeyzAllowUtilitiesMod.settings.IsAllowed(t)) return false;
         if (t.def.plant == null)
             return false;
 

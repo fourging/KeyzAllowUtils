@@ -64,7 +64,7 @@ public class Designator_FinishOff : Designator
 
     public override AcceptanceReport CanDesignateThing(Thing t)
     {
-        if(!KeyzAllowUtilitiesMod.settings.IsAllowed(t) || t is not Pawn { Downed: true, Dead: false } pawn || pawn.Faction == Faction.OfPlayer || (pawn.guest != null && pawn.guest.HostFaction == Faction.OfPlayer)) return false;
+        if(t is not Pawn { Downed: true, Dead: false } pawn || pawn.Faction == Faction.OfPlayer || (pawn.guest != null && pawn.guest.HostFaction == Faction.OfPlayer)) return false;
 
         return KeyzAllowUtilitiesMod.settings.AllowFinishOffOnFriendly || pawn.Faction.HostileTo(Faction.OfPlayer) || pawn.IsAnimal;
     }

@@ -73,8 +73,6 @@ public class Designator_SelectSimilar : Designator
 
     public override AcceptanceReport CanDesignateThing(Thing t)
     {
-        if (!KeyzAllowUtilitiesMod.settings.IsAllowed(t)) return false;
-
         List<Thing> selected = Find.Selector.SelectedObjects.OfType<Thing>().ToList();
 
         if (!t.def.selectable || !selected.Any(thing => thing.def == t.def) ) return false;

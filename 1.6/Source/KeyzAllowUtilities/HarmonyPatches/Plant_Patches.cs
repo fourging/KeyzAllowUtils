@@ -56,7 +56,6 @@ public static class Plant_Patches
     [HarmonyPostfix]
     public static void GetGizmos_Patch(Plant __instance, ref IEnumerable<Gizmo> __result)
     {
-        if(!KeyzAllowUtilitiesMod.settings.IsAllowed(__instance)) return;
         List<Gizmo> gizmos = __result.ToList();
 
 

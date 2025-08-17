@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using Verse;
 
 namespace KeyzAllowUtilities;
@@ -7,43 +8,74 @@ public class Settings : ModSettings
 {
     public int MaxSelect = 300;
     public bool DisableHaulUrgently = false;
+    public bool DisableNoHauling = false;
     public bool DisableFinishOff = false;
     public bool DisableStripMine = false;
     public bool AllowFinishOffOnFriendly = false;
     public bool DisableAllowShortcuts = false;
     public bool DisableAllShortcuts = false;
     public bool DisableMeleeRequirementForFinishOff = false;
+    public bool DisableHarvest = false;
+    public bool DisableCut = false;
+    public bool DisableSelection = false;
+    public bool DisableFertileZone = false;
+
+    private float ScrollViewHeight = 0;
+    public Vector2 scrollPosition = Vector2.zero;
 
     public void DoWindowContents(Rect wrect)
     {
-        Listing_Standard options = new();
-        options.Begin(wrect);
+        Rect contentScrollContainerRect = new(
+            wrect.xMin,
+            wrect.yMin,
+            wrect.width - 16,
+            Mathf.Max(ScrollViewHeight, wrect.height)
+        );
 
-        options.Label("KeyzAllowUtilities_Settings_MaxSelect".Translate(MaxSelect));
-        options.IntAdjuster(ref MaxSelect,  10, 0);
-        options.Gap();
+        scrollPosition = GUI.BeginScrollView(wrect, scrollPosition, contentScrollContainerRect);
 
-        options.CheckboxLabeled("KAU_ToggleHaulUrgently".Translate(), ref DisableHaulUrgently);
-        options.Gap();
+        Listing_Standard options = new() { maxOneColumn = true };
+        try
+        {
+            options.Begin(contentScrollContainerRect);
 
-        options.CheckboxLabeled("KAU_ToggleFinishOff".Translate(), ref DisableFinishOff);
-        options.Gap();
+            options.GapLine();
+            GameFont orig = Text.Font;
+            Text.Font = GameFont.Medium;
+            options.Label("General Settings");
+            Text.Font = orig;
+            options.Gap();
 
-        options.CheckboxLabeled("KAU_ToggleStripMine".Translate(), ref DisableStripMine);
-        options.Gap();
+            options.Label("KeyzAllowUtilities_Settings_MaxSelect".Translate(MaxSelect));
+            options.IntAdjuster(ref MaxSelect, 10, 0);
+            options.CheckboxLabeled("KAU_ToggleHaulUrgently".Translate(), ref DisableHaulUrgently);
+            options.CheckboxLabeled("KAU_ToggleNoHauling".Translate(), ref DisableNoHauling);
+            options.CheckboxLabeled("KAU_ToggleFinishOff".Translate(), ref DisableFinishOff);
+            options.CheckboxLabeled("KAU_ToggleStripMine".Translate(), ref DisableStripMine);
+            options.CheckboxLabeled("KAU_ToggleHarvest".Translate(), ref DisableHarvest);
+            options.CheckboxLabeled("KAU_ToggleCut".Translate(), ref DisableCut);
+            options.CheckboxLabeled("KAU_ToggleSelection".Translate(), ref DisableSelection);
+            options.CheckboxLabeled("KAU_ToggleFertileZone".Translate(), ref DisableFertileZone);
+            options.CheckboxLabeled("KAU_ToggleAllowFinishOffOnFriendly".Translate(), ref AllowFinishOffOnFriendly);
+            options.CheckboxLabeled("KAU_ToggleDisableAllowShortcuts".Translate(), ref DisableAllowShortcuts);
+            options.CheckboxLabeled("KAU_ToggleDisableAllShortcuts".Translate(), ref DisableAllShortcuts);
+            options.CheckboxLabeled("KAU_DisableMeleeRequirementForFinishOff".Translate(), ref DisableMeleeRequirementForFinishOff);
 
-        options.CheckboxLabeled("KAU_ToggleAllowFinishOffOnFriendly".Translate(), ref AllowFinishOffOnFriendly);
-        options.Gap();
+            options.Gap();
+            options.GapLine();
+        }
+        catch (Exception e)
+        {
+            ModLog.Error("Error rendering settings menu", e);
+        }
+        finally
+        {
+            ScrollViewHeight = options.CurHeight;
+            options.End();
+            GUI.EndScrollView();
 
-        options.CheckboxLabeled("KAU_ToggleDisableAllowShortcuts".Translate(), ref DisableAllowShortcuts);
-        options.Gap();
+        }
 
-        options.CheckboxLabeled("KAU_ToggleDisableAllShortcuts".Translate(), ref DisableAllShortcuts);
-        options.Gap();
-
-        options.CheckboxLabeled("KAU_DisableMeleeRequirementForFinishOff".Translate(), ref DisableMeleeRequirementForFinishOff);
-        options.Gap();
-        options.End();
 
     }
 
@@ -76,8 +108,13 @@ public class Settings : ModSettings
     {
         Scribe_Values.Look(ref MaxSelect, "MaxSelect", 300);
         Scribe_Values.Look(ref DisableHaulUrgently, "DisableHaulUrgently", false);
+        Scribe_Values.Look(ref DisableNoHauling, "DisableNoHauling", false);
         Scribe_Values.Look(ref DisableFinishOff, "DisableFinishOff", false);
         Scribe_Values.Look(ref DisableStripMine, "DisableStripMine", false);
+        Scribe_Values.Look(ref DisableHarvest, "DisableHarvest", false);
+        Scribe_Values.Look(ref DisableCut, "DisableCut", false);
+        Scribe_Values.Look(ref DisableSelection, "DisableSelection", false);
+        Scribe_Values.Look(ref DisableFertileZone, "DisableFertileZone", false);
         Scribe_Values.Look(ref AllowFinishOffOnFriendly, "AllowFinishOffOnFriendly", false);
         Scribe_Values.Look(ref DisableAllowShortcuts, "DisableAllowShortcuts", false);
         Scribe_Values.Look(ref DisableAllShortcuts, "DisableAllShortcuts", false);

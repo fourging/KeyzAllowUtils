@@ -45,7 +45,6 @@ public static class Thing_Patches
     [HarmonyPostfix]
     public static void GetGizmos_Patch(Thing __instance, ref IEnumerable<Gizmo> __result)
     {
-        if(!KeyzAllowUtilitiesMod.settings.IsAllowed(__instance)) return;
         List<Gizmo> gizmos = __result.ToList();
         Map currentMap = __instance.MapOrHolderMap();
         if(currentMap == null) return;

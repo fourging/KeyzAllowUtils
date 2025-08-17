@@ -34,7 +34,7 @@ public class Designator_CutGrown : Designator_PlantsCut
 
     public override AcceptanceReport CanDesignateThing(Thing t)
     {
-        return t is Plant plant  && KeyzAllowUtilitiesMod.settings.IsAllowed(t)&& base.CanDesignateThing(t) && Mathf.Approximately(plant.Growth, 1f);
+        return t is Plant plant  && base.CanDesignateThing(t) && Mathf.Approximately(plant.Growth, 1f);
     }
 
     public override void DesignateThing(Thing t)
