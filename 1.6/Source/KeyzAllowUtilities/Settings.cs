@@ -8,6 +8,7 @@ public class Settings : ModSettings
     public int MaxSelect = 300;
     public bool DisableHaulUrgently = false;
     public bool DisableFinishOff = false;
+    public bool DisableStripMine = false;
     public bool AllowFinishOffOnFriendly = false;
     public bool DisableAllowShortcuts = false;
     public bool DisableAllShortcuts = false;
@@ -26,6 +27,9 @@ public class Settings : ModSettings
         options.Gap();
 
         options.CheckboxLabeled("KAU_ToggleFinishOff".Translate(), ref DisableFinishOff);
+        options.Gap();
+
+        options.CheckboxLabeled("KAU_ToggleStripMine".Translate(), ref DisableStripMine);
         options.Gap();
 
         options.CheckboxLabeled("KAU_ToggleAllowFinishOffOnFriendly".Translate(), ref AllowFinishOffOnFriendly);
@@ -73,6 +77,7 @@ public class Settings : ModSettings
         Scribe_Values.Look(ref MaxSelect, "MaxSelect", 300);
         Scribe_Values.Look(ref DisableHaulUrgently, "DisableHaulUrgently", false);
         Scribe_Values.Look(ref DisableFinishOff, "DisableFinishOff", false);
+        Scribe_Values.Look(ref DisableStripMine, "DisableStripMine", false);
         Scribe_Values.Look(ref AllowFinishOffOnFriendly, "AllowFinishOffOnFriendly", false);
         Scribe_Values.Look(ref DisableAllowShortcuts, "DisableAllowShortcuts", false);
         Scribe_Values.Look(ref DisableAllShortcuts, "DisableAllShortcuts", false);

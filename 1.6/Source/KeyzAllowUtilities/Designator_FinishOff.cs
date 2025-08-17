@@ -16,6 +16,8 @@ public class Designator_FinishOff : Designator
         set => disabled = value;
     }
 
+    public override bool Visible => !KeyzAllowUtilitiesMod.settings.DisableFinishOff;
+
     protected override DesignationDef Designation => KeyzAllowUtilitesDefOf.KAU_FinishOffDesignation;
 
     public override DrawStyleCategoryDef DrawStyleCategory => DrawStyleCategoryDefOf.FilledRectangle;

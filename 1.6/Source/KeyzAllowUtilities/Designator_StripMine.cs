@@ -13,6 +13,14 @@ public class Designator_StripMine : Designator_Mine
     public static int SpacingX = 1;
     public static int SpacingZ = 1;
 
+    public override bool Disabled
+    {
+        get => disabled || KeyzAllowUtilitiesMod.settings.DisableStripMine;
+        set => disabled = value;
+    }
+
+    public override bool Visible => !KeyzAllowUtilitiesMod.settings.DisableStripMine;
+
     Texture2D Diagram = ContentFinder<Texture2D>.Get("UI/KAU_StripMineDiagram");
 
     public Designator_StripMine()

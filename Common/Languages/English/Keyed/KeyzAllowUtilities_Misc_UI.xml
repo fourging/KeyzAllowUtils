@@ -49,6 +49,7 @@
 
     <KAU_ToggleHaulUrgently>Disable Haul Urgently</KAU_ToggleHaulUrgently>
     <KAU_ToggleFinishOff>Disable Finish Off</KAU_ToggleFinishOff>
+    <KAU_ToggleStripMine>Disable Strip Mine</KAU_ToggleStripMine>
     <KAU_ToggleAllowFinishOffOnFriendly>Allow finish off on friendly pawns</KAU_ToggleAllowFinishOffOnFriendly>
 
     <KAU_ToggleDisableAllowShortcuts>Disable Allow/Forbid hotkeys</KAU_ToggleDisableAllowShortcuts>
