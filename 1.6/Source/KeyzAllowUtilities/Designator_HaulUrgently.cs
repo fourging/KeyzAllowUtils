@@ -59,6 +59,7 @@ public class Designator_HaulUrgently : Designator
 
     public override AcceptanceReport CanDesignateThing(Thing t)
     {
+        if (!KeyzAllowUtilitiesMod.settings.IsAllowed(t)) return false;
         if (!t.def.designateHaulable && !t.def.EverHaulable)
             return false;
         if (t.IsInValidBestStorage())

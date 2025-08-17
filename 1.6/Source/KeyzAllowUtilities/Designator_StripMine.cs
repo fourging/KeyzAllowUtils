@@ -28,6 +28,7 @@ public class Designator_StripMine : Designator_Mine
         defaultLabel = "KAU_StripMine".Translate();
         defaultDesc = "KAU_StripMineDesc".Translate();
         icon = ContentFinder<Texture2D>.Get("UI/KAU_StripMine");
+        hotKey = KeyzAllowUtilitesDefOf.KAU_StripMine;
     }
 
     public override void DoExtraGuiControls(float leftX, float bottomY)

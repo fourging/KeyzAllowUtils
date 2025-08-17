@@ -15,6 +15,8 @@ public static class Thing_Patches
 {
     public static readonly Texture2D KUA_MultiSelectIcon = ContentFinder<Texture2D>.Get("UI/KUA_MultiSelect");
 
+    public static readonly Texture2D KUA_ToggleNoHaulIcon = ContentFinder<Texture2D>.Get("UI/KUA_ToggleNoHaul");
+
     public static readonly Texture2D KUA_ToggleHaulUrgentlyIcon = ContentFinder<Texture2D>.Get("UI/KUA_ToggleHaulUrgently");
     public static readonly Texture2D KUA_ToggleHaulUrgentlyDisableIcon = ContentFinder<Texture2D>.Get("UI/KUA_ToggleHaulUrgentlyDisable");
 
@@ -26,6 +28,10 @@ public static class Thing_Patches
     public static Lazy<string> KUA_SelectOnScreen = new(() => "KUA_SelectOnScreen".Translate());
     public static Lazy<string> KUA_SelectOnMap = new(() => "KUA_SelectOnMap".Translate());
     public static Lazy<string> KUA_SelectInRect = new(() => "KUA_SelectInRect".Translate());
+    public static Lazy<string> KUA_ToggleNoHaulUrgently = new(() => "KUA_ToggleNoHaulUrgently".Translate());
+    public static Lazy<string> KUA_ToggleNoHaulUrgentlyDesc = new(() => "KUA_ToggleNoHaulUrgentlyDesc".Translate());
+    public static Lazy<string> KUA_ToggleNoHaulUrgentlyDisable = new(() => "KUA_ToggleNoHaulUrgentlyDisable".Translate());
+    public static Lazy<string> KUA_ToggleNoHaulUrgentlyDisableDesc = new(() => "KUA_ToggleNoHaulUrgentlyDisableDesc".Translate());
     public static Lazy<string> KUA_ToggleHaulUrgently = new(() => "KUA_ToggleHaulUrgently".Translate());
     public static Lazy<string> KUA_ToggleHaulUrgentlyDesc = new(() => "KUA_ToggleHaulUrgentlyDesc".Translate());
     public static Lazy<string> KUA_ToggleHaulUrgentlyDisable = new(() => "KUA_ToggleHaulUrgentlyDisable".Translate());
@@ -39,65 +45,68 @@ public static class Thing_Patches
     [HarmonyPostfix]
     public static void GetGizmos_Patch(Thing __instance, ref IEnumerable<Gizmo> __result)
     {
+        if(!KeyzAllowUtilitiesMod.settings.IsAllowed(__instance)) return;
         List<Gizmo> gizmos = __result.ToList();
         Map currentMap = __instance.MapOrHolderMap();
         if(currentMap == null) return;
 
-        Command_Action command_Action = new()
+        if (!KeyzAllowUtilitiesMod.settings.DisableSelection)
         {
-            icon = KUA_MultiSelectIcon,
-            defaultLabel = KUA_MultiSelect.Value,
-            defaultDesc = KUA_MultiSelectDesc.Value,
-            action = () =>
+            Command_Action command_Action = new()
             {
-                if (Event.current == null || Event.current.button == 0)
+                icon = KUA_MultiSelectIcon,
+                defaultLabel = KUA_MultiSelect.Value,
+                defaultDesc = KUA_MultiSelectDesc.Value,
+                action = () =>
                 {
-                    if(SelectDesignator != null)
-                        Find.DesignatorManager.Select(SelectDesignator.Value);
-                }
-                else
-                {
-                    List<FloatMenuOption> items = [];
-
-                    if (Event.current.shift || !__instance.def.MadeFromStuff)
+                    if (Event.current == null || Event.current.button == 0)
                     {
-                        items.Add(new FloatMenuOption(KUA_SelectOnScreen.Value, () =>
-                        {
-                            FilterUtils.SelectOnScreen(__instance);
-                        }));
-                        items.Add(new FloatMenuOption(KUA_SelectOnMap.Value, () =>
-                        {
-                            currentMap.SelectOnMap(__instance);
-                        }));
-                        items.Add(new FloatMenuOption(KUA_SelectInRect.Value, () =>
-                        {
-                            if (SelectDesignator != null)
-                                Find.DesignatorManager.Select(SelectDesignator.Value);
-                        }));
+                        if (SelectDesignator != null)
+                            Find.DesignatorManager.Select(SelectDesignator.Value);
                     }
                     else
                     {
-                        items.Add(new FloatMenuOption("KUA_SelectOnScreenWithStuff".Translate(__instance.Stuff.LabelAsStuff), () =>
+                        List<FloatMenuOption> items = [];
+
+                        if (Event.current.shift || !__instance.def.MadeFromStuff)
                         {
-                            FilterUtils.SelectOnScreen(__instance, __instance.Stuff);
-                        }));
-                        items.Add(new FloatMenuOption("KUA_SelectOnMapWithStuff".Translate(__instance.Stuff.LabelAsStuff), () =>
+                            items.Add(new FloatMenuOption(KUA_SelectOnScreen.Value, () =>
+                            {
+                                FilterUtils.SelectOnScreen(__instance);
+                            }));
+                            items.Add(new FloatMenuOption(KUA_SelectOnMap.Value, () =>
+                            {
+                                currentMap.SelectOnMap(__instance);
+                            }));
+                            items.Add(new FloatMenuOption(KUA_SelectInRect.Value, () =>
+                            {
+                                if (SelectDesignator != null)
+                                    Find.DesignatorManager.Select(SelectDesignator.Value);
+                            }));
+                        }
+                        else
                         {
-                            currentMap.SelectOnMap(__instance, __instance.Stuff);
-                        }));
-                        items.Add(new FloatMenuOption(KUA_SelectInRect.Value, () =>
-                        {
-                            if (SelectDesignator != null)
-                                Find.DesignatorManager.Select(SelectDesignator.Value);
-                        }));
+                            items.Add(new FloatMenuOption("KUA_SelectOnScreenWithStuff".Translate(__instance.Stuff.LabelAsStuff), () =>
+                            {
+                                FilterUtils.SelectOnScreen(__instance, __instance.Stuff);
+                            }));
+                            items.Add(new FloatMenuOption("KUA_SelectOnMapWithStuff".Translate(__instance.Stuff.LabelAsStuff), () =>
+                            {
+                                currentMap.SelectOnMap(__instance, __instance.Stuff);
+                            }));
+                            items.Add(new FloatMenuOption(KUA_SelectInRect.Value, () =>
+                            {
+                                if (SelectDesignator != null)
+                                    Find.DesignatorManager.Select(SelectDesignator.Value);
+                            }));
+                        }
+
+                        Find.WindowStack.Add(new FloatMenu(items));
                     }
-
-                    Find.WindowStack.Add(new FloatMenu(items));
                 }
-            }
-        };
-        gizmos.Add(command_Action);
-
+            };
+            gizmos.Add(command_Action);
+        }
 
         if (!KeyzAllowUtilitiesMod.settings.DisableHaulUrgently && __instance is not Pawn && __instance.def.EverHaulable)
         {
@@ -147,6 +156,38 @@ public static class Thing_Patches
                         {
                             HaulUrgentlyRightClick(__instance);
                         }
+                    }
+                });
+            }
+        }
+
+        if (!KeyzAllowUtilitiesMod.settings.DisableNoHauling && __instance is not Pawn && __instance.def.EverHaulable)
+        {
+            Designation des = __instance.MapOrHolderMap()?.designationManager?.DesignationOn(__instance, KeyzAllowUtilitesDefOf.KAU_NoHaulDesignation);
+
+            if (des == null)
+            {
+                gizmos.Add( new Command_Action
+                {
+                    icon = KUA_ToggleNoHaulIcon,
+                    defaultLabel = KUA_ToggleNoHaulUrgently.Value,
+                    defaultDesc = KUA_ToggleNoHaulUrgentlyDesc.Value,
+                    action = () =>
+                    {
+                        currentMap.designationManager.AddDesignation(new Designation(__instance, KeyzAllowUtilitesDefOf.KAU_NoHaulDesignation));
+                    }
+                });
+            }
+            else
+            {
+                gizmos.Add( new Command_Action
+                {
+                    icon = KUA_ToggleNoHaulIcon,
+                    defaultLabel = KUA_ToggleHaulUrgentlyDisable.Value,
+                    defaultDesc = KUA_ToggleNoHaulUrgentlyDisableDesc.Value,
+                    action = () =>
+                    {
+                        currentMap.designationManager.RemoveDesignation(des);
                     }
                 });
             }

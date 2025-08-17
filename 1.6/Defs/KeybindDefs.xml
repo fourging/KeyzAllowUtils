@@ -31,8 +31,38 @@
 
     <KeyBindingDef>
         <category>KAU_AllowUtilities</category>
+        <defName>KAU_SelectSimilarDesignator</defName>
+        <label>Select similar (Designator)</label>
+    </KeyBindingDef>
+
+    <KeyBindingDef>
+        <category>KAU_AllowUtilities</category>
         <defName>KAU_HarvestFullyGrown</defName>
         <label>Harvest fully grown</label>
+    </KeyBindingDef>
+
+    <KeyBindingDef>
+        <category>KAU_AllowUtilities</category>
+        <defName>KAU_CutFullyGrown</defName>
+        <label>Cut fully grown</label>
+    </KeyBindingDef>
+
+    <KeyBindingDef>
+        <category>KAU_AllowUtilities</category>
+        <defName>KAU_StripMine</defName>
+        <label>Strip Mine</label>
+    </KeyBindingDef>
+
+    <KeyBindingDef>
+        <category>KAU_AllowUtilities</category>
+        <defName>KAU_FertileGrowArea</defName>
+        <label>Growing zone (Fertile only)</label>
+    </KeyBindingDef>
+
+    <KeyBindingDef>
+        <category>KAU_AllowUtilities</category>
+        <defName>KAU_FertileGrowAreaExpand</defName>
+        <label>Expand zone (Fertile only)</label>
     </KeyBindingDef>
 
     <KeyBindingDef>

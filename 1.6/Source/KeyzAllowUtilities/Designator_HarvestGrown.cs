@@ -10,6 +10,13 @@ namespace KeyzAllowUtilities;
 [StaticConstructorOnStartup]
 public class Designator_HarvestGrown : Designator_Plants
 {
+    public override bool Disabled
+    {
+        get => disabled || KeyzAllowUtilitiesMod.settings.DisableHarvest;
+        set => disabled = value;
+    }
+
+    public override bool Visible => !KeyzAllowUtilitiesMod.settings.DisableHarvest;
     public static Lazy<FieldInfo> CanDesignateStumpsNow => new(()=>AccessTools.Field(typeof(Designator_HarvestGrown), nameof(CanDesignateStumpsNow)));
     protected override DesignationDef Designation => DesignationDefOf.CutPlant;
 
@@ -24,10 +31,12 @@ public class Designator_HarvestGrown : Designator_Plants
         soundDragChanged = SoundDefOf.Designate_DragStandard_Changed;
         useMouseIcon = true;
         soundSucceeded = SoundDefOf.Designate_CutPlants;
+        hotKey = KeyzAllowUtilitesDefOf.KAU_HarvestFullyGrown;
     }
 
     public override AcceptanceReport CanDesignateThing(Thing t)
     {
+        if (!KeyzAllowUtilitiesMod.settings.IsAllowed(t)) return false;
         if (t.def.plant == null)
             return false;
 

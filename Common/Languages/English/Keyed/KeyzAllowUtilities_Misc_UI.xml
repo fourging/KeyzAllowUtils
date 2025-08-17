@@ -47,11 +47,24 @@
     <KUA_ToggleHaulUrgentlyDisable>Cancel haul urgently</KUA_ToggleHaulUrgentlyDisable>
     <KUA_ToggleHaulUrgentlyDisableDesc>Cancel haul urgently</KUA_ToggleHaulUrgentlyDisableDesc>
 
+    <KUA_ToggleNoHaulUrgently>Do not haul</KUA_ToggleNoHaulUrgently>
+    <KUA_ToggleNoHaulUrgentlyDesc>Do not haul</KUA_ToggleNoHaulUrgentlyDesc>
+
+    <KUA_ToggleNoHaulUrgentlyDisable>Allow Hauling</KUA_ToggleNoHaulUrgentlyDisable>
+    <KUA_ToggleNoHaulUrgentlyDisableDesc>Allow Hauling</KUA_ToggleNoHaulUrgentlyDisableDesc>
+
     <KAU_ToggleHaulUrgently>Disable Haul Urgently</KAU_ToggleHaulUrgently>
     <KAU_ToggleFinishOff>Disable Finish Off</KAU_ToggleFinishOff>
     <KAU_ToggleStripMine>Disable Strip Mine</KAU_ToggleStripMine>
     <KAU_ToggleAllowFinishOffOnFriendly>Allow finish off on friendly pawns</KAU_ToggleAllowFinishOffOnFriendly>
 
+    <KAU_ToggleHarvest>Disable Harvest Designator and Gizmos</KAU_ToggleHarvest>
+    <KAU_ToggleCut>Disable Cut Designator and Gizmos</KAU_ToggleCut>
+    <KAU_ToggleSelection>Disable Selection Gizmos</KAU_ToggleSelection>
+
+    <KAU_ToggleFertileZone>Disable Fertile Grow Zone Designator</KAU_ToggleFertileZone>
+
+    <KAU_ToggleNoHauling>Disable No Hauling Designator and Gizmos</KAU_ToggleNoHauling>
     <KAU_ToggleDisableAllowShortcuts>Disable Allow/Forbid hotkeys</KAU_ToggleDisableAllowShortcuts>
 
     <KUA_SelectSimilar>Select similar</KUA_SelectSimilar>
@@ -74,4 +87,7 @@
 
     <KAU_StripMine>Strip Mine</KAU_StripMine>
     <KAU_StripMineDesc>Mine a grid rather than everything</KAU_StripMineDesc>
+
+    <KUA_NoHaul>Do not haul</KUA_NoHaul>
+    <KUA_NoHaulDesc>Prevents this item from being hauled to e.g. stockpiles. This does not prevent the items being hauled to work - e.g. resources to a toolbench, or being used by a recipe at the toolbench</KUA_NoHaulDesc>
 </LanguageData>

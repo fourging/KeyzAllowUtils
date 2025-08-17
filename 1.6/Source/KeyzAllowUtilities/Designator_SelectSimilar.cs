@@ -9,6 +9,13 @@ namespace KeyzAllowUtilities;
 [StaticConstructorOnStartup]
 public class Designator_SelectSimilar : Designator
 {
+    public override bool Disabled
+    {
+        get => disabled || KeyzAllowUtilitiesMod.settings.DisableSelection;
+        set => disabled = value;
+    }
+
+    public override bool Visible => !KeyzAllowUtilitiesMod.settings.DisableSelection;
     public override DrawStyleCategoryDef DrawStyleCategory => DrawStyleCategoryDefOf.FilledRectangle;
 
     public static readonly Material DragHighlightThingMat = MaterialPool.MatFrom("UI/KUA_HaulHighlight", ShaderDatabase.MetaOverlay);
@@ -22,7 +29,7 @@ public class Designator_SelectSimilar : Designator
         soundDragChanged = SoundDefOf.Designate_DragStandard_Changed;
         useMouseIcon = true;
         soundSucceeded = SoundDefOf.Designate_Haul;
-        hotKey = KeyBindingDefOf.Misc12;
+        hotKey = KeyzAllowUtilitesDefOf.KAU_SelectSimilarDesignator;
     }
 
     public List<Thing> SelectableThingsInCell(IntVec3 c)
@@ -66,6 +73,8 @@ public class Designator_SelectSimilar : Designator
 
     public override AcceptanceReport CanDesignateThing(Thing t)
     {
+        if (!KeyzAllowUtilitiesMod.settings.IsAllowed(t)) return false;
+
         List<Thing> selected = Find.Selector.SelectedObjects.OfType<Thing>().ToList();
 
         if (!t.def.selectable || !selected.Any(thing => thing.def == t.def) ) return false;
@@ -81,6 +90,7 @@ public class Designator_SelectSimilar : Designator
     public override void SelectedUpdate() => GenUI.RenderMouseoverBracket();
 
     private static HashSet<Thing> seenThings = new();
+
     public override void RenderHighlight(List<IntVec3> dragCells)
     {
         seenThings.Clear();

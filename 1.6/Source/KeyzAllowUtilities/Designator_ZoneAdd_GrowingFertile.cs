@@ -6,6 +6,14 @@ namespace KeyzAllowUtilities;
 
 public class Designator_ZoneAdd_GrowingFertile : Designator_ZoneAdd_Growing
 {
+    public override bool Disabled
+    {
+        get => disabled || KeyzAllowUtilitiesMod.settings.DisableFertileZone;
+        set => disabled = value;
+    }
+
+    public override bool Visible => !KeyzAllowUtilitiesMod.settings.DisableFertileZone;
+
     public static float FertileSoilMinLevel = 1.4f;
 
     public Designator_ZoneAdd_GrowingFertile()
@@ -15,7 +23,7 @@ public class Designator_ZoneAdd_GrowingFertile : Designator_ZoneAdd_Growing
         defaultDesc = "KAU_DesignatorGrowingZoneDesc".Translate();
         icon = ContentFinder<Texture2D>.Get("UI/Designators/ZoneCreate_Growing");
         tutorTag = "ZoneAdd_Growing";
-        hotKey = KeyBindingDefOf.Misc11;
+        hotKey = KeyzAllowUtilitesDefOf.KAU_FertileGrowArea;
         soundSucceeded = SoundDefOf.Designate_ZoneAdd_Growing;
     }
 

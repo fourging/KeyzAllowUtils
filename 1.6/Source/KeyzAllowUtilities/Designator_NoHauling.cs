@@ -7,79 +7,71 @@ using Verse;
 namespace KeyzAllowUtilities;
 
 [StaticConstructorOnStartup]
-public class Designator_FinishOff : Designator
+public class Designator_NoHauling : Designator
 {
     public override bool Disabled
     {
-        get => disabled || KeyzAllowUtilitiesMod.settings.DisableFinishOff;
+        get => disabled || KeyzAllowUtilitiesMod.settings.DisableNoHauling;
         set => disabled = value;
     }
 
-    public override bool Visible => !KeyzAllowUtilitiesMod.settings.DisableFinishOff;
-
-    protected override DesignationDef Designation => KeyzAllowUtilitesDefOf.KAU_FinishOffDesignation;
+    protected override DesignationDef Designation => KeyzAllowUtilitesDefOf.KAU_NoHaulDesignation;
 
     public override DrawStyleCategoryDef DrawStyleCategory => DrawStyleCategoryDefOf.FilledRectangle;
 
-    public static readonly Material DragHighlightThingMat = MaterialPool.MatFrom("UI/KUA_FinishOffHighlight", ShaderDatabase.MetaOverlay);
+    public static readonly Material DragHighlightThingMat = MaterialPool.MatFrom("UI/KUA_NoHaulHighlight", ShaderDatabase.MetaOverlay);
 
-    public Designator_FinishOff()
+    public Designator_NoHauling()
     {
-        defaultLabel = "KUA_ToggleFinishOff".Translate();
-        icon = ContentFinder<Texture2D>.Get("UI/KUA_ToggleFinishOff");
-        defaultDesc = "KUA_ToggleFinishOffDesc".Translate();
+        defaultLabel = "KUA_NoHaul".Translate();
+        icon = ContentFinder<Texture2D>.Get("UI/KUA_ToggleNoHaul");
+        defaultDesc = "KUA_NoHaulDesc".Translate();
         soundDragSustain = SoundDefOf.Designate_DragStandard;
         soundDragChanged = SoundDefOf.Designate_DragStandard_Changed;
         useMouseIcon = true;
         soundSucceeded = SoundDefOf.Designate_Haul;
-        hotKey = KeyzAllowUtilitesDefOf.KAU_FinishOff;
     }
 
-    public List<Thing> SelectableThingsInCell(IntVec3 c)
+    public static Thing GetFirstUgentHaulable(IntVec3 c, Map map)
     {
-        if (!c.InBounds(Map) || c.Fogged(Map))
-            return [];
-
-        return Map.thingGrid.ThingsListAt(c).Where(t=>CanDesignateThing(t)).ToList();
+        List<Thing> thingList = map.thingGrid.ThingsListAt(c);
+        return Enumerable.FirstOrDefault(thingList, t => t.def.EverHaulable);
     }
 
     public override AcceptanceReport CanDesignateCell(IntVec3 c)
     {
-        List<Thing> thingsInCell = SelectableThingsInCell(c);
+        if (!c.InBounds(Map) || c.Fogged(Map))
+            return false;
 
-        if (thingsInCell.Count <= 0)
-            return "No Selectables";
-
-        return true;
+        Thing firstHaulable = GetFirstUgentHaulable(c, Map);
+        if (firstHaulable == null)
+            return "MessageMustDesignateHaulable".Translate();
+        AcceptanceReport acceptanceReport = CanDesignateThing(firstHaulable);
+        return !acceptanceReport.Accepted ? acceptanceReport : true;
     }
 
     public override void DesignateSingleCell(IntVec3 c)
     {
-        List<Thing> thingsInCell = SelectableThingsInCell(c);
-        foreach (Thing thing in thingsInCell)
-        {
-            DesignateThing(thing);
-        }
+        Thing haulable = GetFirstUgentHaulable(c,Map);
+        if (haulable != null)
+            DesignateThing(haulable);
     }
 
     public override AcceptanceReport CanDesignateThing(Thing t)
     {
-        if(!KeyzAllowUtilitiesMod.settings.IsAllowed(t) || t is not Pawn { Downed: true, Dead: false } pawn || pawn.Faction == Faction.OfPlayer || (pawn.guest != null && pawn.guest.HostFaction == Faction.OfPlayer)) return false;
+        if (!KeyzAllowUtilitiesMod.settings.IsAllowed(t)) return false;
 
-        return KeyzAllowUtilitiesMod.settings.AllowFinishOffOnFriendly || pawn.Faction.HostileTo(Faction.OfPlayer) || pawn.IsAnimal;
+        if (!t.def.designateHaulable && !t.def.EverHaulable)
+            return false;
+
+        if (Map.designationManager.DesignationOn(t, Designation) != null)
+            return false;
+        return true;
     }
 
     public override void DesignateThing(Thing t)
     {
-        if (Event.current.shift)
-        {
-            Map.designationManager.AddDesignation(new Designation((LocalTargetInfo) t, KeyzAllowUtilitesDefOf.KAU_StripFinishOffDesignation));
-        }
-        else
-        {
-            Map.designationManager.AddDesignation(new Designation((LocalTargetInfo) t, Designation));
-        }
-        t.SetForbidden(false, false);
+        Map.designationManager.AddDesignation(new Designation((LocalTargetInfo) t, Designation));
     }
 
     public override void SelectedUpdate() => GenUI.RenderMouseoverBracket();

@@ -1,4 +1,5 @@
 ﻿using System;
+using HarmonyLib;
 using PickUpAndHaul;
 using Verse;
 
@@ -10,6 +11,12 @@ public class PUAHMod : Mod
         : base(content)
     {
         ModLog.Debug("Hello world from PUAHMod");
+#if DEBUG
+        Harmony.DEBUG = true;
+#endif
+        Harmony harmony = new Harmony("keyz182.rimworld.KeyzAllowUtilities.PUAH.main");
+        harmony.PatchAll();
+
         try
         {
             WorkGiver_HaulToInventory hauler = (WorkGiver_HaulToInventory) Activator.CreateInstance(typeof(WorkGiver_HaulToInventory));

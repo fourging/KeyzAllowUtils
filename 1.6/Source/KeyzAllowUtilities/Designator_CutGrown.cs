@@ -9,6 +9,13 @@ namespace KeyzAllowUtilities;
 [StaticConstructorOnStartup]
 public class Designator_CutGrown : Designator_PlantsCut
 {
+    public override bool Disabled
+    {
+        get => disabled || KeyzAllowUtilitiesMod.settings.DisableCut;
+        set => disabled = value;
+    }
+
+    public override bool Visible => !KeyzAllowUtilitiesMod.settings.DisableCut;
     protected override DesignationDef Designation => DesignationDefOf.CutPlant;
 
     public override DrawStyleCategoryDef DrawStyleCategory => DrawStyleCategoryDefOf.FilledRectangle;
@@ -22,11 +29,12 @@ public class Designator_CutGrown : Designator_PlantsCut
         soundDragChanged = SoundDefOf.Designate_DragStandard_Changed;
         useMouseIcon = true;
         soundSucceeded = SoundDefOf.Designate_CutPlants;
+        hotKey = KeyzAllowUtilitesDefOf.KAU_CutFullyGrown;
     }
 
     public override AcceptanceReport CanDesignateThing(Thing t)
     {
-        return t is Plant plant && base.CanDesignateThing(t) && Mathf.Approximately(plant.Growth, 1f);
+        return t is Plant plant  && KeyzAllowUtilitiesMod.settings.IsAllowed(t)&& base.CanDesignateThing(t) && Mathf.Approximately(plant.Growth, 1f);
     }
 
     public override void DesignateThing(Thing t)

@@ -7,6 +7,12 @@
     </DesignationDef>
 
     <DesignationDef>
+        <defName>KAU_NoHaulDesignation</defName>
+        <texturePath>UI/KAU_NoHaulDesignation</texturePath>
+        <targetType>Thing</targetType>
+    </DesignationDef>
+
+    <DesignationDef>
         <defName>KAU_FinishOffDesignation</defName>
         <texturePath>UI/KUA_FinishOffDesignation</texturePath>
         <targetType>Thing</targetType>

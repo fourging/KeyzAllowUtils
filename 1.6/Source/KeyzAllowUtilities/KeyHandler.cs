@@ -39,56 +39,23 @@ public class KeyHandler(Map map) : MapComponent(map)
 
         if(KeyzAllowUtilitiesMod.settings.DisableAllShortcuts) return;
 
-        if (KeyzAllowUtilitesDefOf.KAU_Allow.KeyDownEvent)
+        if (!KeyzAllowUtilitiesMod.settings.DisableAllowShortcuts && KeyzAllowUtilitesDefOf.KAU_Allow.KeyDownEvent)
         {
             AllowAll(map);
             Event.current.Use();
-        }else if (KeyzAllowUtilitesDefOf.KAU_Forbid.KeyDownEvent)
+        }else if (!KeyzAllowUtilitiesMod.settings.DisableAllowShortcuts && KeyzAllowUtilitesDefOf.KAU_Forbid.KeyDownEvent)
         {
             AllowAll(map, true);
             Event.current.Use();
         }
 
-        if (KeyzAllowUtilitesDefOf.KAU_SelectSimilar.KeyDownEvent)
+        if (!KeyzAllowUtilitiesMod.settings.DisableSelection && KeyzAllowUtilitesDefOf.KAU_SelectSimilar.KeyDownEvent)
         {
             if (selectSimilar != null)
             {
                 Find.DesignatorManager.Select(selectSimilar);
             }
             Event.current.Use();
-        }else if (KeyzAllowUtilitesDefOf.KAU_HarvestFullyGrown.KeyDownEvent)
-        {
-            CutFullyGrownOnMap(map);
-            Event.current.Use();
-        }
-
-        if(KeyzAllowUtilitiesMod.settings.DisableAllowShortcuts) return;
-
-        if (KeyzAllowUtilitesDefOf.KAU_Allow.KeyDownEvent)
-        {
-            AllowAll(map);
-            Event.current.Use();
-        }else if (KeyzAllowUtilitesDefOf.KAU_Forbid.KeyDownEvent)
-        {
-            AllowAll(map, true);
-            Event.current.Use();
-        }
-
-        // else if (KeyzAllowUtilitesDefOf.KAU_HaulUrgently.KeyDownEvent)
-        // {
-        //     foreach (Thing thing in Find.Selector.SelectedObjects.OfType<Thing>().Where(t=>t.def.EverHaulable && !map.designationManager.HasMapDesignationOn(t)))
-        //     {
-        //         map.designationManager.AddDesignation(new Designation(thing, KeyzAllowUtilitesDefOf.KAU_HaulUrgentlyDesignation));
-        //     }
-        // }
-    }
-
-    public static void CutFullyGrownOnMap(Map map)
-    {
-        foreach (Plant plant in map.listerThings.AllThings.OnlySelectableThings().NotFogged().OfType<Plant>().Where(p=>Mathf.Approximately(p.Growth, 1f)))
-        {
-            plant.Map.designationManager.RemoveAllDesignationsOn(plant);
-            plant.Map.designationManager.AddDesignation(new Designation((LocalTargetInfo) plant, DesignationDefOf.CutPlant));
         }
     }
 

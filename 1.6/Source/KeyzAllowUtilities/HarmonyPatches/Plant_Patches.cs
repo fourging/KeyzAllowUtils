@@ -56,68 +56,85 @@ public static class Plant_Patches
     [HarmonyPostfix]
     public static void GetGizmos_Patch(Plant __instance, ref IEnumerable<Gizmo> __result)
     {
+        if(!KeyzAllowUtilitiesMod.settings.IsAllowed(__instance)) return;
         List<Gizmo> gizmos = __result.ToList();
 
-        Command_Action harvestGrownCommand = new()
+
+        if (!KeyzAllowUtilitiesMod.settings.DisableHarvest)
         {
-            icon = KUA_HarvestGrown, defaultLabel = "KUA_HarvestGrown".Translate(), defaultDesc = "KUA_HarvestGrownDesc".Translate(), action = () =>
+            Command_Action harvestGrownCommand = new()
             {
-                List<FloatMenuOption> items =
-                [
-                    new FloatMenuOption("KUA_HarvestOnScreen".Translate(), () =>
-                    {
-                        if (TryGetSelectedOfCategory(ThingCategory.Plant, out List<Thing> things))
+                icon = KUA_HarvestGrown,
+                defaultLabel = "KUA_HarvestGrown".Translate(),
+                defaultDesc = "KUA_HarvestGrownDesc".Translate(),
+                action = () =>
+                {
+                    List<FloatMenuOption> items =
+                    [
+                        new("KUA_HarvestOnScreen".Translate(), () =>
                         {
-                            DesignateFullyGrownOnScreen(things.OfType<Plant>(), __instance.Map, DesignationDefOf.HarvestPlant);
-                        }
-                        DesignateFullyGrownOnScreen([__instance], __instance.Map, DesignationDefOf.HarvestPlant);
-                    }),
+                            if (TryGetSelectedOfCategory(ThingCategory.Plant, out List<Thing> things))
+                            {
+                                DesignateFullyGrownOnScreen(things.OfType<Plant>(), __instance.Map, DesignationDefOf.HarvestPlant);
+                            }
 
-                    new FloatMenuOption("KUA_HarvestOnMap".Translate(), () =>
-                    {
-                        if (TryGetSelectedOfCategory(ThingCategory.Plant, out List<Thing> things))
+                            DesignateFullyGrownOnScreen([__instance], __instance.Map, DesignationDefOf.HarvestPlant);
+                        }),
+
+                        new("KUA_HarvestOnMap".Translate(), () =>
                         {
-                            __instance.Map.DesignateFullyGrownOnMap(things.OfType<Plant>(), DesignationDefOf.HarvestPlant);
-                        }
-                        __instance.Map.DesignateFullyGrownOnMap([__instance], DesignationDefOf.HarvestPlant);
-                    })
-                ];
+                            if (TryGetSelectedOfCategory(ThingCategory.Plant, out List<Thing> things))
+                            {
+                                __instance.Map.DesignateFullyGrownOnMap(things.OfType<Plant>(), DesignationDefOf.HarvestPlant);
+                            }
 
-                Find.WindowStack.Add(new FloatMenu(items));
-            }
-        };
-        gizmos.Add(harvestGrownCommand);
+                            __instance.Map.DesignateFullyGrownOnMap([__instance], DesignationDefOf.HarvestPlant);
+                        })
+                    ];
 
+                    Find.WindowStack.Add(new FloatMenu(items));
+                }
+            };
+            gizmos.Add(harvestGrownCommand);
+        }
 
-        Command_Action cutGrownCommand = new()
+        if (!KeyzAllowUtilitiesMod.settings.DisableCut)
         {
-            icon = KUA_CutGrown, defaultLabel = "KUA_CutGrown".Translate(), defaultDesc = "KUA_CutGrownDesc".Translate(), action = () =>
+            Command_Action cutGrownCommand = new()
             {
-                List<FloatMenuOption> items =
-                [
-                    new FloatMenuOption("KUA_CutGrownOnScreen".Translate(), () =>
-                    {
-                        if (TryGetSelectedOfCategory(ThingCategory.Plant, out List<Thing> things))
+                icon = KUA_CutGrown,
+                defaultLabel = "KUA_CutGrown".Translate(),
+                defaultDesc = "KUA_CutGrownDesc".Translate(),
+                action = () =>
+                {
+                    List<FloatMenuOption> items =
+                    [
+                        new("KUA_CutGrownOnScreen".Translate(), () =>
                         {
-                            DesignateFullyGrownOnScreen(things.OfType<Plant>(), __instance.Map, DesignationDefOf.CutPlant, false);
-                        }
-                        DesignateFullyGrownOnScreen([__instance], __instance.Map, DesignationDefOf.CutPlant, false);
-                    }),
+                            if (TryGetSelectedOfCategory(ThingCategory.Plant, out List<Thing> things))
+                            {
+                                DesignateFullyGrownOnScreen(things.OfType<Plant>(), __instance.Map, DesignationDefOf.CutPlant, false);
+                            }
 
-                    new FloatMenuOption("KUA_CutGrownOnMap".Translate(), () =>
-                    {
-                        if (TryGetSelectedOfCategory(ThingCategory.Plant, out List<Thing> things))
+                            DesignateFullyGrownOnScreen([__instance], __instance.Map, DesignationDefOf.CutPlant, false);
+                        }),
+
+                        new("KUA_CutGrownOnMap".Translate(), () =>
                         {
-                            __instance.Map.DesignateFullyGrownOnMap(things.OfType<Plant>(), DesignationDefOf.CutPlant, false);
-                        }
-                        __instance.Map.DesignateFullyGrownOnMap([__instance], DesignationDefOf.CutPlant, false);
-                    })
-                ];
+                            if (TryGetSelectedOfCategory(ThingCategory.Plant, out List<Thing> things))
+                            {
+                                __instance.Map.DesignateFullyGrownOnMap(things.OfType<Plant>(), DesignationDefOf.CutPlant, false);
+                            }
 
-                Find.WindowStack.Add(new FloatMenu(items));
-            }
-        };
-        gizmos.Add(cutGrownCommand);
+                            __instance.Map.DesignateFullyGrownOnMap([__instance], DesignationDefOf.CutPlant, false);
+                        })
+                    ];
+
+                    Find.WindowStack.Add(new FloatMenu(items));
+                }
+            };
+            gizmos.Add(cutGrownCommand);
+        }
 
         __result = gizmos;
     }
