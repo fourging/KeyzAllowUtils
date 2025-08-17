@@ -19,6 +19,8 @@ public class Designator_StripMine : Designator_Mine
         set => disabled = value;
     }
 
+    public override bool Visible => !KeyzAllowUtilitiesMod.settings.DisableStripMine;
+
     Texture2D Diagram = ContentFinder<Texture2D>.Get("UI/KAU_StripMineDiagram");
 
     public Designator_StripMine()
