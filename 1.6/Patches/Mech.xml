@@ -46,4 +46,24 @@
         </match>
     </Operation>
 
+    <Operation Class="PatchOperationConditional">
+        <xpath>Defs/ThingDef[race/mechEnabledWorkTypes/li="Hauling"]/race/mechWorkTypePriorities</xpath>
+        <nomatch Class="PatchOperationAdd">
+            <xpath>Defs/ThingDef[defName="Mech_Lifter"]/race</xpath>
+            <value>
+                <mechWorkTypePriorities />
+            </value>
+        </nomatch>
+    </Operation>
+
+    <Operation Class="PatchOperationConditional">
+        <xpath>Defs/ThingDef[race/mechEnabledWorkTypes/li="Hauling"]/race/mechWorkTypePriorities</xpath>
+        <match Class="PatchOperationAdd">
+            <xpath>Defs/ThingDef[race/mechEnabledWorkTypes/li="Hauling"]/race/mechEnabledWorkTypes</xpath>
+            <value>
+                <li>KAU_UrgentHaul</li>
+            </value>
+        </match>
+    </Operation>
+
 </Patch>
