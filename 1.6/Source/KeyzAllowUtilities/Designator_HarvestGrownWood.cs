@@ -1,5 +1,6 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System;
+using System.Reflection;
+using HarmonyLib;
 using RimWorld;
 using UnityEngine;
 using Verse;
@@ -7,34 +8,38 @@ using Verse;
 namespace KeyzAllowUtilities;
 
 [StaticConstructorOnStartup]
-public class Designator_CutGrown : Designator_PlantsCut
+public class Designator_HarvestGrownWood : Designator_PlantsHarvestWood
 {
     public override bool Disabled
     {
-        get => disabled || KeyzAllowUtilitiesMod.settings.DisableCut;
+        get => disabled || KeyzAllowUtilitiesMod.settings.DisableHarvest;
         set => disabled = value;
     }
 
-    public override bool Visible => !KeyzAllowUtilitiesMod.settings.DisableCut;
+    public override bool Visible => !KeyzAllowUtilitiesMod.settings.DisableHarvest;
+
     protected override DesignationDef Designation => DesignationDefOf.CutPlant;
 
     public override DrawStyleCategoryDef DrawStyleCategory => DrawStyleCategoryDefOf.FilledRectangle;
 
-    public Designator_CutGrown()
+    public Designator_HarvestGrownWood()
     {
-        defaultLabel = "KUA_CutGrown".Translate();
-        icon = ContentFinder<Texture2D>.Get("UI/KUA_CutGrown");
-        defaultDesc = "KUA_CutGrownDesc".Translate();
+        defaultLabel = "KUA_HarvestGrownWood".Translate();
+        icon = ContentFinder<Texture2D>.Get("UI/KUA_HarvestGrownWood");
+        defaultDesc = "KUA_HarvestGrownWoodDesc".Translate();
         soundDragSustain = SoundDefOf.Designate_DragStandard;
         soundDragChanged = SoundDefOf.Designate_DragStandard_Changed;
         useMouseIcon = true;
         soundSucceeded = SoundDefOf.Designate_CutPlants;
-        hotKey = KeyzAllowUtilitesDefOf.KAU_CutFullyGrown;
+        hotKey = KeyzAllowUtilitesDefOf.KAU_HarvestFullyGrownWood;
     }
 
     public override AcceptanceReport CanDesignateThing(Thing t)
     {
-        return base.CanDesignateThing(t) && Mathf.Approximately(((Plant)t).Growth, 1f);
+        AcceptanceReport report = base.CanDesignateThing(t);
+        if (!report.Accepted) return report;
+
+        return Mathf.Approximately(((Plant)t).Growth, 1f);
     }
 
     public override void DesignateThing(Thing t)

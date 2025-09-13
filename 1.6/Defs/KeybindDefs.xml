@@ -43,6 +43,12 @@
 
     <KeyBindingDef>
         <category>KAU_AllowUtilities</category>
+        <defName>KAU_HarvestFullyGrownWood</defName>
+        <label>Chop fully grown wood</label>
+    </KeyBindingDef>
+
+    <KeyBindingDef>
+        <category>KAU_AllowUtilities</category>
         <defName>KAU_CutFullyGrown</defName>
         <label>Cut fully grown</label>
     </KeyBindingDef>

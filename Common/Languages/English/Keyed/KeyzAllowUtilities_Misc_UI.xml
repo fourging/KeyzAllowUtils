@@ -17,12 +17,17 @@
     <KUA_SelectInRectWithStuff>Select similar items in rect made from {0}</KUA_SelectInRectWithStuff>
 
     <KUA_HarvestGrown>Harvest grown</KUA_HarvestGrown>
-    <KUA_HarvestGrownDesc>Tools to harvest only grown plants</KUA_HarvestGrownDesc>
+    <KUA_HarvestGrownDesc>Marks fully grown plants to be harvested for their food or other products.</KUA_HarvestGrownDesc>
+
+    <KUA_HarvestGrownWood>Chop grown wood</KUA_HarvestGrownWood>
+    <KUA_HarvestGrownWoodDesc>Marks fully grown trees to be chopped down for wood.</KUA_HarvestGrownWoodDesc>
+
     <KUA_HarvestOnScreen>Harvest all fully grown on screen</KUA_HarvestOnScreen>
     <KUA_HarvestOnMap>Harvest all fully grown on map</KUA_HarvestOnMap>
 
     <KUA_CutGrown>Cut grown</KUA_CutGrown>
-    <KUA_CutGrownDesc>Tools to cut only grown plants</KUA_CutGrownDesc>
+    <KUA_CutGrownDesc>Marks fully grown plants to be cut and destroyed. The plant will be completely removed, and any food or resource yield will be harvested.</KUA_CutGrownDesc>
+
     <KUA_CutGrownOnScreen>Cut all fully grown on screen</KUA_CutGrownOnScreen>
     <KUA_CutGrownOnMap>Cut all fully grown on map</KUA_CutGrownOnMap>
 

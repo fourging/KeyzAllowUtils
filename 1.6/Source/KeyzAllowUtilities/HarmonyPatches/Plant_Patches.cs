@@ -59,7 +59,7 @@ public static class Plant_Patches
         List<Gizmo> gizmos = __result.ToList();
 
 
-        if (!KeyzAllowUtilitiesMod.settings.DisableHarvest)
+        if (!KeyzAllowUtilitiesMod.settings.DisableHarvest && __instance.def.plant.Harvestable)
         {
             Command_Action harvestGrownCommand = new()
             {
@@ -97,7 +97,7 @@ public static class Plant_Patches
             gizmos.Add(harvestGrownCommand);
         }
 
-        if (!KeyzAllowUtilitiesMod.settings.DisableCut)
+        if (!KeyzAllowUtilitiesMod.settings.DisableCut && __instance.def.plant.IsTree && __instance.def.plant.Harvestable)
         {
             Command_Action cutGrownCommand = new()
             {

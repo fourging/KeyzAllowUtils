@@ -18,6 +18,7 @@ public static class KeyzAllowUtilitesDefOf
     public static readonly KeyBindingDef KAU_Forbid;
     public static readonly KeyBindingDef KAU_SelectSimilar;
     public static readonly KeyBindingDef KAU_HarvestFullyGrown;
+    public static readonly KeyBindingDef KAU_HarvestFullyGrownWood;
     public static readonly KeyBindingDef KAU_CutFullyGrown;
     public static readonly KeyBindingDef KAU_HaulUrgently;
     public static readonly KeyBindingDef KAU_StripMine;
