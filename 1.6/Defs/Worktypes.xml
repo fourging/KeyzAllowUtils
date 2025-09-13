@@ -2,7 +2,7 @@
 <Defs>
     <WorkTypeDef>
         <defName>KAU_UrgentHaul</defName>
-        <labelShort>Urgent hauling</labelShort>
+        <labelShort>Haul+</labelShort>
         <pawnLabel>Hauler</pawnLabel>
         <gerundLabel>Urgently hauling</gerundLabel>
         <description>Haul things urgently.</description>
