@@ -15,9 +15,9 @@ public class KeyzAllowUtilitiesMod : Mod
     {
         ModLog.Log("Loading KeyzAllowUtilities");
         settings = GetSettings<Settings>();
-#if DEBUG
-        Harmony.DEBUG = true;
-#endif
+// #if DEBUG
+//         Harmony.DEBUG = true;
+// #endif
         Harmony harmony = new Harmony("keyz182.rimworld.KeyzAllowUtilities.main");
         harmony.PatchAll();
     }
