@@ -83,4 +83,10 @@
         <defName>KAU_FinishOff</defName>
         <label>Finish off</label>
     </KeyBindingDef>
+
+    <KeyBindingDef>
+        <category>KAU_AllowUtilities</category>
+        <defName>KAU_SelectFloor</defName>
+        <label>Select Floor</label>
+    </KeyBindingDef>
 </Defs>
