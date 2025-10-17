@@ -21,6 +21,7 @@
                     <li>KeyzAllowUtilities.Designator_CutGrown</li>
                     <li>KeyzAllowUtilities.Designator_HarvestGrown</li>
                     <li>KeyzAllowUtilities.Designator_HarvestGrownWood</li>
+                    <li>RimWorld.Designator_Open</li>
                 </value>
             </li>
             <!-- Grabbed from original Allow Tool - puts the tool in the place people expect -->
