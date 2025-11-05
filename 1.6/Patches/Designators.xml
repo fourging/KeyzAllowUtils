@@ -2,6 +2,13 @@
 <Patch>
     <Operation Class="PatchOperationSequence">
         <operations>
+            <li Class="PatchOperationInsert">
+                <order>Append</order>
+                <xpath>/Defs/DesignationCategoryDef[defName="Floors"]/specialDesignatorClasses/li[6]</xpath>
+                <value>
+                    <li>KeyzAllowUtilities.Designator_Floors</li>
+                </value>
+            </li>
             <!-- Grabbed from original Allow Tool - puts the tool in the place people expect -->
             <li Class="PatchOperationInsert">
                 <order>Append</order>
@@ -14,6 +21,7 @@
                     <li>KeyzAllowUtilities.Designator_CutGrown</li>
                     <li>KeyzAllowUtilities.Designator_HarvestGrown</li>
                     <li>KeyzAllowUtilities.Designator_HarvestGrownWood</li>
+                    <li>RimWorld.Designator_Open</li>
                 </value>
             </li>
             <!-- Grabbed from original Allow Tool - puts the tool in the place people expect -->

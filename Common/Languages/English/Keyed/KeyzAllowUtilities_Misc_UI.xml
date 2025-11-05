@@ -95,4 +95,13 @@
 
     <KUA_NoHaul>Do not haul</KUA_NoHaul>
     <KUA_NoHaulDesc>Prevents this item from being hauled to e.g. stockpiles. This does not prevent the items being hauled to work - e.g. resources to a toolbench, or being used by a recipe at the toolbench</KUA_NoHaulDesc>
+
+    <KAU_DesignatorFloors>Floor picker</KAU_DesignatorFloors>
+    <KAU_DesignatorFloorsDesc>Allows you to pick a floor type to build</KAU_DesignatorFloorsDesc>
+    <KAU_GrabbedTerrain>Grabbed terrain</KAU_GrabbedTerrain>
+    <KAU_GrabTerrain>Grab</KAU_GrabTerrain>
+
+    <KAU_OOB>Out of bounds</KAU_OOB>
+    <KAU_NotBuildable>Can't be built</KAU_NotBuildable>
+    <KAU_ResearchNotFinished>Research not finished</KAU_ResearchNotFinished>
 </LanguageData>
