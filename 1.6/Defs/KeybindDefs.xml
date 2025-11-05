@@ -89,4 +89,10 @@
         <defName>KAU_SelectFloor</defName>
         <label>Select Floor</label>
     </KeyBindingDef>
+
+    <KeyBindingDef>
+        <category>KAU_AllowUtilities</category>
+        <defName>KAU_CutBlighted</defName>
+        <label>Cut Blighted</label>
+    </KeyBindingDef>
 </Defs>

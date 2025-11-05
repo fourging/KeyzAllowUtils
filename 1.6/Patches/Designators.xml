@@ -19,6 +19,7 @@
                     <li>KeyzAllowUtilities.Designator_FinishOff</li>
                     <li>KeyzAllowUtilities.Designator_StripMine</li>
                     <li>KeyzAllowUtilities.Designator_CutGrown</li>
+                    <li>KeyzAllowUtilities.Designator_CutBlighted</li>
                     <li>KeyzAllowUtilities.Designator_HarvestGrown</li>
                     <li>KeyzAllowUtilities.Designator_HarvestGrownWood</li>
                     <li>RimWorld.Designator_Open</li>

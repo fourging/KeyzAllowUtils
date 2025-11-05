@@ -37,20 +37,20 @@ public class Designator_HarvestGrown : Designator_Plants
     public override AcceptanceReport CanDesignateThing(Thing t)
     {
         if (t.def.plant == null)
-            return false;
+            return "KAU_NotAPlant".Translate();
 
         if (t is not Plant plant)
         {
-            return false;
+            return "KAU_NotAPlant".Translate();
         }
 
-        if (!plant.def.plant.Harvestable) return false;
+        if (!plant.def.plant.Harvestable) return "KAU_NotHarvestable".Translate();
 
-        if (plant.def.plant.harvestTag == "Wood" || plant.def.plant.harvestedThingDef == null) return false;
+        if (plant.def.plant.harvestTag == "Wood" || plant.def.plant.harvestedThingDef == null) return "KAU_NoHarvestableThing".Translate();
 
-        if(Map.designationManager.AllDesignationsOn(plant).Any(des=>des.def == DesignationDefOf.HarvestPlant)) return false;
+        if(Map.designationManager.AllDesignationsOn(plant).Any(des=>des.def == DesignationDefOf.HarvestPlant)) return "KAU_AlreadyDesignated".Translate();
 
-        if (!Mathf.Approximately(plant.Growth, 1f)) return false;
+        if (!Mathf.Approximately(plant.Growth, 1f)) return "KAU_NotFullyGrown".Translate();
 
         if (t.TryGetComp(out CompPlantPreventCutting comp) && comp.PreventCutting)
             return "MessageMustPlantCuttingForbidden".Translate();

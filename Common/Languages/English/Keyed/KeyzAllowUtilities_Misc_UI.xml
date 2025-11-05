@@ -55,8 +55,8 @@
     <KUA_ToggleNoHaulUrgently>Do not haul</KUA_ToggleNoHaulUrgently>
     <KUA_ToggleNoHaulUrgentlyDesc>Do not haul</KUA_ToggleNoHaulUrgentlyDesc>
 
-    <KUA_ToggleNoHaulUrgentlyDisable>Allow Hauling</KUA_ToggleNoHaulUrgentlyDisable>
-    <KUA_ToggleNoHaulUrgentlyDisableDesc>Allow Hauling</KUA_ToggleNoHaulUrgentlyDisableDesc>
+    <KUA_ToggleNoHaulUrgentlyDisable>Allow hauling</KUA_ToggleNoHaulUrgentlyDisable>
+    <KUA_ToggleNoHaulUrgentlyDisableDesc>Allow hauling</KUA_ToggleNoHaulUrgentlyDisableDesc>
 
     <KAU_ToggleHaulUrgently>Disable Haul Urgently</KAU_ToggleHaulUrgently>
     <KAU_ToggleFinishOff>Disable Finish Off</KAU_ToggleFinishOff>
@@ -104,4 +104,15 @@
     <KAU_OOB>Out of bounds</KAU_OOB>
     <KAU_NotBuildable>Can't be built</KAU_NotBuildable>
     <KAU_ResearchNotFinished>Research not finished</KAU_ResearchNotFinished>
+
+
+    <KAU_NotAPlant>Not a plant</KAU_NotAPlant>
+    <KAU_NotHarvestable>Not harvestable</KAU_NotHarvestable>
+    <KAU_NoHarvestableThing>Not harvestable thing</KAU_NoHarvestableThing>
+    <KAU_AlreadyDesignated>Already designated</KAU_AlreadyDesignated>
+    <KAU_NotFullyGrown>Not fully grown</KAU_NotFullyGrown>
+
+    <KUA_CutBlighted>Cut blighted</KUA_CutBlighted>
+    <KUA_CutBlightedDesc>Cut only blighted plants</KUA_CutBlightedDesc>
+
 </LanguageData>

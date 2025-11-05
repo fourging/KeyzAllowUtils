@@ -28,10 +28,13 @@ public static class Thing_Patches
     public static Lazy<string> KUA_SelectOnScreen = new(() => "KUA_SelectOnScreen".Translate());
     public static Lazy<string> KUA_SelectOnMap = new(() => "KUA_SelectOnMap".Translate());
     public static Lazy<string> KUA_SelectInRect = new(() => "KUA_SelectInRect".Translate());
+
     public static Lazy<string> KUA_ToggleNoHaulUrgently = new(() => "KUA_ToggleNoHaulUrgently".Translate());
     public static Lazy<string> KUA_ToggleNoHaulUrgentlyDesc = new(() => "KUA_ToggleNoHaulUrgentlyDesc".Translate());
+
     public static Lazy<string> KUA_ToggleNoHaulUrgentlyDisable = new(() => "KUA_ToggleNoHaulUrgentlyDisable".Translate());
     public static Lazy<string> KUA_ToggleNoHaulUrgentlyDisableDesc = new(() => "KUA_ToggleNoHaulUrgentlyDisableDesc".Translate());
+
     public static Lazy<string> KUA_ToggleHaulUrgently = new(() => "KUA_ToggleHaulUrgently".Translate());
     public static Lazy<string> KUA_ToggleHaulUrgentlyDesc = new(() => "KUA_ToggleHaulUrgentlyDesc".Translate());
     public static Lazy<string> KUA_ToggleHaulUrgentlyDisable = new(() => "KUA_ToggleHaulUrgentlyDisable".Translate());
@@ -182,7 +185,7 @@ public static class Thing_Patches
                 gizmos.Add( new Command_Action
                 {
                     icon = KUA_ToggleNoHaulIcon,
-                    defaultLabel = KUA_ToggleHaulUrgentlyDisable.Value,
+                    defaultLabel = KUA_ToggleNoHaulUrgentlyDisable.Value,
                     defaultDesc = KUA_ToggleNoHaulUrgentlyDisableDesc.Value,
                     action = () =>
                     {
