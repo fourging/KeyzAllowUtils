@@ -63,7 +63,7 @@ public static class Thing_Patches
                 {
                     if (Event.current == null || Event.current.button == 0)
                     {
-                        if (SelectDesignator != null)
+                        if (SelectDesignator.Value != null)
                             Find.DesignatorManager.Select(SelectDesignator.Value);
                     }
                     else
@@ -82,7 +82,7 @@ public static class Thing_Patches
                             }));
                             items.Add(new FloatMenuOption(KUA_SelectInRect.Value, () =>
                             {
-                                if (SelectDesignator != null)
+                                if (SelectDesignator.Value != null)
                                     Find.DesignatorManager.Select(SelectDesignator.Value);
                             }));
                         }
@@ -98,7 +98,7 @@ public static class Thing_Patches
                             }));
                             items.Add(new FloatMenuOption(KUA_SelectInRect.Value, () =>
                             {
-                                if (SelectDesignator != null)
+                                if (SelectDesignator.Value != null)
                                     Find.DesignatorManager.Select(SelectDesignator.Value);
                             }));
                         }

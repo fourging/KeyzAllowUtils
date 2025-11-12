@@ -39,7 +39,9 @@ public class Designator_HarvestGrownWood : Designator_PlantsHarvestWood
         AcceptanceReport report = base.CanDesignateThing(t);
         if (!report.Accepted) return report;
 
-        return Mathf.Approximately(((Plant)t).Growth, 1f);
+        Plant tree = t as Plant;
+        if (tree == null) return false;
+        return Mathf.Approximately(tree.Growth, 1f) || tree.Growth > 0.99f;
     }
 
     public override void DesignateThing(Thing t)
