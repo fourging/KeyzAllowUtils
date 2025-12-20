@@ -16,6 +16,7 @@ public static class Thing_Patches
     public static readonly Texture2D KUA_MultiSelectIcon = ContentFinder<Texture2D>.Get("UI/KUA_MultiSelect");
 
     public static readonly Texture2D KUA_ToggleNoHaulIcon = ContentFinder<Texture2D>.Get("UI/KUA_ToggleNoHaul");
+    public static readonly Texture2D KUA_ClaimAllDoorsIcon = ContentFinder<Texture2D>.Get("UI/KUA_ClaimAllDoors");
 
     public static readonly Texture2D KUA_ToggleHaulUrgentlyIcon = ContentFinder<Texture2D>.Get("UI/KUA_ToggleHaulUrgently");
     public static readonly Texture2D KUA_ToggleHaulUrgentlyDisableIcon = ContentFinder<Texture2D>.Get("UI/KUA_ToggleHaulUrgentlyDisable");
@@ -35,6 +36,9 @@ public static class Thing_Patches
     public static Lazy<string> KUA_ToggleNoHaulUrgentlyDisable = new(() => "KUA_ToggleNoHaulUrgentlyDisable".Translate());
     public static Lazy<string> KUA_ToggleNoHaulUrgentlyDisableDesc = new(() => "KUA_ToggleNoHaulUrgentlyDisableDesc".Translate());
 
+    public static Lazy<string> KUA_ClaimAllDoors = new(() => "KUA_ClaimAllDoors".Translate());
+    public static Lazy<string> KUA_ClaimAllDoorsDesc = new(() => "KUA_ClaimAllDoorsDesc".Translate());
+
     public static Lazy<string> KUA_ToggleHaulUrgently = new(() => "KUA_ToggleHaulUrgently".Translate());
     public static Lazy<string> KUA_ToggleHaulUrgentlyDesc = new(() => "KUA_ToggleHaulUrgentlyDesc".Translate());
     public static Lazy<string> KUA_ToggleHaulUrgentlyDisable = new(() => "KUA_ToggleHaulUrgentlyDisable".Translate());
@@ -43,6 +47,8 @@ public static class Thing_Patches
     public static Lazy<string> KUA_ToggleHaulUrgentlyOnScreen = new(() => "KUA_ToggleHaulUrgentlyOnScreen".Translate());
     public static Lazy<string> KUA_ToggleHaulUrgentlyOnMap = new(() => "KUA_ToggleHaulUrgentlyOnMap".Translate());
 
+    public static Designator_HaulUrgently haulUrgently =>
+        DefDatabase<DesignationCategoryDef>.GetNamed("Orders").AllResolvedDesignators.FirstOrDefault(d => d is Designator_HaulUrgently) as Designator_HaulUrgently;
 
     [HarmonyPatch(nameof(Thing.GetGizmos))]
     [HarmonyPostfix]
@@ -124,6 +130,11 @@ public static class Thing_Patches
                     hotKey = KeyzAllowUtilitiesMod.settings.DisableAllShortcuts ? null : KeyzAllowUtilitesDefOf.KAU_HaulUrgently,
                     action = () =>
                     {
+                        if (Event.current.shift)
+                        {
+                            Find.DesignatorManager.Select(haulUrgently);
+                            return;
+                        }
                         if (Event.current == null || Event.current.button == 0)
                         {
                             if (!__instance.IsInValidBestStorage() && !currentMap.designationManager.HasMapDesignationOn(__instance))
@@ -193,6 +204,29 @@ public static class Thing_Patches
                     }
                 });
             }
+        }
+
+        if (!KeyzAllowUtilitiesMod.settings.DisableClaimAll && __instance is Building_Door)
+        {
+            gizmos.Add( new Command_Action
+            {
+                icon = KUA_ClaimAllDoorsIcon,
+                defaultLabel = KUA_ClaimAllDoors.Value,
+                defaultDesc = KUA_ClaimAllDoorsDesc.Value,
+                action = () =>
+                {
+                    List<Building_Door> claimable_doors = __instance.Map.listerBuildings.allBuildingsNonColonist.OfType<Building_Door>().Where(door => door.ClaimableBy(Faction.OfPlayer)).ToList();
+
+                    foreach (Building_Door door in claimable_doors)
+                    {
+                        door.SetFaction(Faction.OfPlayer);
+                        foreach (IntVec3 cell in door.OccupiedRect())
+                            FleckMaker.ThrowMetaPuffs(new TargetInfo(cell, door.Map));
+                    }
+
+                    Messages.Message("KUA_ClaimedDoors".Translate(claimable_doors.Count), MessageTypeDefOf.PositiveEvent);
+                }
+            });
         }
 
         __result = gizmos;

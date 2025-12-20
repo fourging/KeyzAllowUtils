@@ -9,6 +9,7 @@ public class Settings : ModSettings
     public int MaxSelect = 300;
     public bool DisableHaulUrgently = false;
     public bool DisableNoHauling = false;
+    public bool DisableClaimAll = false;
     public bool DisableFinishOff = false;
     public bool DisableStripMine = false;
     public bool AllowFinishOffOnFriendly = false;
@@ -50,6 +51,7 @@ public class Settings : ModSettings
             options.IntAdjuster(ref MaxSelect, 10, 0);
             options.CheckboxLabeled("KAU_ToggleHaulUrgently".Translate(), ref DisableHaulUrgently);
             options.CheckboxLabeled("KAU_ToggleNoHauling".Translate(), ref DisableNoHauling);
+            options.CheckboxLabeled("KAU_DisableClaimAll".Translate(), ref DisableClaimAll);
             options.CheckboxLabeled("KAU_ToggleFinishOff".Translate(), ref DisableFinishOff);
             options.CheckboxLabeled("KAU_ToggleStripMine".Translate(), ref DisableStripMine);
             options.CheckboxLabeled("KAU_ToggleHarvest".Translate(), ref DisableHarvest);
@@ -109,6 +111,7 @@ public class Settings : ModSettings
         Scribe_Values.Look(ref MaxSelect, "MaxSelect", 300);
         Scribe_Values.Look(ref DisableHaulUrgently, "DisableHaulUrgently", false);
         Scribe_Values.Look(ref DisableNoHauling, "DisableNoHauling", false);
+        Scribe_Values.Look(ref DisableNoHauling, "DisableClaimAll", false);
         Scribe_Values.Look(ref DisableFinishOff, "DisableFinishOff", false);
         Scribe_Values.Look(ref DisableStripMine, "DisableStripMine", false);
         Scribe_Values.Look(ref DisableHarvest, "DisableHarvest", false);

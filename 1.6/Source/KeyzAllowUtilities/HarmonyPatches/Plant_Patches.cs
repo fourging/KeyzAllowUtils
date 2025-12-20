@@ -52,14 +52,21 @@ public static class Plant_Patches
         return false;
     }
 
+    public static Designator_PlantsHarvest harvestPlants =>
+        DefDatabase<DesignationCategoryDef>.GetNamed("Orders").AllResolvedDesignators.FirstOrDefault(d => d is Designator_PlantsHarvest) as Designator_PlantsHarvest;
+    public static Designator_PlantsCut cutPlants =>
+        DefDatabase<DesignationCategoryDef>.GetNamed("Orders").AllResolvedDesignators.FirstOrDefault(d => d is Designator_PlantsCut) as Designator_PlantsCut;
+
     [HarmonyPatch(nameof(Plant.GetGizmos))]
     [HarmonyPostfix]
     public static void GetGizmos_Patch(Plant __instance, ref IEnumerable<Gizmo> __result)
     {
         List<Gizmo> gizmos = __result.ToList();
 
+        if(KeyzAllowUtilitiesMod.settings.DisableHarvest) return;
+        if(!__instance.def.plant.Harvestable) return;
 
-        if (!KeyzAllowUtilitiesMod.settings.DisableHarvest && __instance.def.plant.Harvestable)
+        if (!__instance.def.plant.IsTree)
         {
             Command_Action harvestGrownCommand = new()
             {
@@ -68,6 +75,11 @@ public static class Plant_Patches
                 defaultDesc = "KUA_HarvestGrownDesc".Translate(),
                 action = () =>
                 {
+                    if (Event.current.shift)
+                    {
+                        Find.DesignatorManager.Select(harvestPlants);
+                        return;
+                    }
                     List<FloatMenuOption> items =
                     [
                         new("KUA_HarvestOnScreen".Translate(), () =>
@@ -95,9 +107,7 @@ public static class Plant_Patches
                 }
             };
             gizmos.Add(harvestGrownCommand);
-        }
-
-        if (!KeyzAllowUtilitiesMod.settings.DisableCut && __instance.def.plant.IsTree && __instance.def.plant.Harvestable)
+        }else
         {
             Command_Action cutGrownCommand = new()
             {
@@ -106,6 +116,11 @@ public static class Plant_Patches
                 defaultDesc = "KUA_CutGrownDesc".Translate(),
                 action = () =>
                 {
+                    if (Event.current.shift)
+                    {
+                        Find.DesignatorManager.Select(harvestPlants);
+                        return;
+                    }
                     List<FloatMenuOption> items =
                     [
                         new("KUA_CutGrownOnScreen".Translate(), () =>

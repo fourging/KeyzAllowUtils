@@ -11,6 +11,7 @@
     <KUA_SelectOnScreen>Select similar items on screen</KUA_SelectOnScreen>
     <KUA_SelectOnMap>Select similar items on map</KUA_SelectOnMap>
     <KUA_SelectInRect>Select similar items in rect</KUA_SelectInRect>
+    <KAU_DisableClaimAll>Disable claim all</KAU_DisableClaimAll>
 
     <KUA_SelectOnScreenWithStuff>Select similar items on screen made from {0}</KUA_SelectOnScreenWithStuff>
     <KUA_SelectOnMapWithStuff>Select similar items on map made from {0}</KUA_SelectOnMapWithStuff>
@@ -115,4 +116,7 @@
     <KUA_CutBlighted>Cut blighted</KUA_CutBlighted>
     <KUA_CutBlightedDesc>Cut only blighted plants</KUA_CutBlightedDesc>
 
+    <KUA_ClaimAllDoors>Claim all doors</KUA_ClaimAllDoors>
+    <KUA_ClaimAllDoorsDesc>Claim all doors that can currently be claimed by the player on the map</KUA_ClaimAllDoorsDesc>
+    <KUA_ClaimedDoors>Claimed {0} doors</KUA_ClaimedDoors>
 </LanguageData>
