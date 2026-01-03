@@ -208,7 +208,7 @@ public static class Thing_Patches
 
         if (!KeyzAllowUtilitiesMod.settings.DisableClaimAll && __instance is Building_Door door)
         {
-            // 只有当选中的门是未占领的门时，才显示"占领所有门"按钮
+            // Only show the "Claim all doors" button when the selected door is unclaimed
             if (door.ClaimableBy(Faction.OfPlayer))
             {
                 gizmos.Add( new Command_Action
@@ -218,16 +218,16 @@ public static class Thing_Patches
                     defaultDesc = KUA_ClaimAllDoorsDesc.Value,
                     action = () =>
                     {
-                        List<Building_Door> claimable_doors = __instance.Map.listerBuildings.allBuildingsNonColonist.OfType<Building_Door>().Where(d => d.ClaimableBy(Faction.OfPlayer)).ToList();
+                        List<Building_Door> claimableDoors = __instance.Map.listerBuildings.allBuildingsNonColonist.OfType<Building_Door>().Where(d => d.ClaimableBy(Faction.OfPlayer)).ToList();
 
-                        foreach (Building_Door claimableDoor in claimable_doors)
+                        foreach (Building_Door claimableDoor in claimableDoors)
                         {
                             claimableDoor.SetFaction(Faction.OfPlayer);
                             foreach (IntVec3 cell in claimableDoor.OccupiedRect())
                                 FleckMaker.ThrowMetaPuffs(new TargetInfo(cell, claimableDoor.Map));
                         }
 
-                        Messages.Message("KUA_ClaimedDoors".Translate(claimable_doors.Count), MessageTypeDefOf.PositiveEvent);
+                        Messages.Message("KUA_ClaimedDoors".Translate(claimableDoors.Count), MessageTypeDefOf.PositiveEvent);
                     }
                 });
             }
